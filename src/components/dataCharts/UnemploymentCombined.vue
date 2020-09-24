@@ -1,16 +1,42 @@
 <template>
-    <div>
-        <h1>Unemployment Combined</h1>
-        <UnemploymentAreaChart>weee</UnemploymentAreaChart>
-    </div>
+  <div>
+    <Chart title="Bar Chart" xKey="name" yKey="amount" :source="source" :data="barChartData" />
+  </div>
 </template>
 
 <script>
-import AreaChart from "../charts/AreaChart.vue";
+import Chart from "../charts/StarterChart.vue";
 
 export default {
-    name: 'UnemploymentCombined',
-    components: {
-        UnemploymentAreaChart: AreaChart
-    }
-}
+  name: "UnemploymentCombined",
+  data: () => ({
+    source: {
+        author: "Billy",
+        year: "2020",
+        title: "A look into XXX"
+    },
+    barChartData: [
+      {
+        name: "Roses",
+        amount: 25
+      },
+      {
+        name: "Tulips",
+        amount: 40
+      },
+      {
+        name: "Daisies",
+        amount: 15
+      },
+      {
+        name: "Narcissuses",
+        amount: 9
+      },
+      
+    ]
+  }),
+  components: {
+    Chart,
+  },
+};
+</script>

@@ -1,7 +1,5 @@
 <template>
     <div id="vis">
-        {{stepIndex}}
-        {{stepSource}}
         <component v-bind:is="stepSource"/>
     </div>
 </template>
@@ -15,9 +13,9 @@ export default {
     name: 'vis',
     props: ['stepIndex','stepSource'],
     components: {
-        UnemploymentCombined: UnemploymentCombined,
-        MonetaryPolicy: MonetaryPolicy,
-        FiscalPolicy: FiscalPolicy,
+       UnemploymentCombined,
+        MonetaryPolicy,
+        FiscalPolicy,
     }
 }
 </script>
@@ -27,32 +25,14 @@ export default {
     display: inline-block;
     position: fixed;
     top: 100px;
+    left: 40%;
+    width: 60%;
     z-index: 1;
     margin-left: 0;
-    height: 1000px;
-    width: 1000px;
-}
-
-#vis .h1 {
-    font-family: "Garamond";
-    font-weight:800;
-    font-size: 20px;
 }
 
 text {
     font-family: "Garamond"
-}
-
-.y1, .y2 {
-    color: orange;
-}
-
-.y1, .y2, .y3, .y4 {
-    font-weight:600;
-}
-
-.tick line {
-    stroke: 'red'
 }
 
 #tooltip {
