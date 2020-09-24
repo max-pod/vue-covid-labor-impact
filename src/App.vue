@@ -1,28 +1,76 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Sections @stepUpdate="handleStepUpdate"/>
+    <Vis 
+        :stepIndex="stepIndex"
+        :stepSource="stepSource"
+    />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Sections from "./components/Sections.vue";
+import Vis from "./components/Vis.vue";
 
 export default {
-  name: 'App',
+  name: "App",
+  data: function() {
+    return {
+      stepIndex: "0",
+      stepSource: "EMB",
+    };
+  },
+  methods: {
+      handleStepUpdate(event) {
+          this.stepIndex = event.stepIndex;
+          this.stepSource = event.stepSource;
+      }
+  },
   components: {
-    HelloWorld
-  }
-}
+    Sections,
+    Vis,
+  },
+};
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+@import url("https://fonts.googleapis.com/css?family=Merriweather&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Kosugi&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Domine:400,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap");
+
+body {
+  background-color: rgb(245, 244, 241);
+  overflow-x: hidden;
+  height: 100%;
+}
+
+.categoryLegend {
+  font-family: "Domine";
+}
+
+h1,
+h2 {
+  font-weight: 800;
+  text-align: left;
+  line-height: 32px;
+}
+
+h1 {
+  font-size: 35px;
+}
+
+strong {
+  color: rgb(245, 155, 155);
+}
+
+a {
+  color: rgb(221, 0, 255);
+  text-decoration: none;
 }
 </style>
