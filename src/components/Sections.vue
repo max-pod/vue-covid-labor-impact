@@ -1,7 +1,7 @@
 <template>
   <div id="sections">
   <Scrollama
-    :debug="true"
+    :debug="false"
     :offset="0.8"
     @step-enter="handler"
   >

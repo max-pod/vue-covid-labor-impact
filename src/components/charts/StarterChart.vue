@@ -193,7 +193,7 @@ export default {
 h1 {
     font-family: "Garamond";
     font-weight:800;
-    font-size: 40px;
+    font-size: 35px;
     text-align: center;
 }
 
