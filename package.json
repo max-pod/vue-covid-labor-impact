@@ -10,6 +10,8 @@
   "dependencies": {
     "core-js": "^3.6.5",
     "d3": "^6.2.0",
+    "d3-collection": "^1.0.7",
+    "d3-scale-chromatic": "^2.0.0",
     "intersection-observer": "^0.11.0",
     "tween": "^0.9.0",
     "tween.js": "^16.6.0",

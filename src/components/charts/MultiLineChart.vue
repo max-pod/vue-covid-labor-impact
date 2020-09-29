@@ -6,8 +6,9 @@
     </h1>
     <transition name="fade">
       <p v-if="mouseOver">
-        <b>{{ yFormat(bisect.yVal) }} </b>
-        <span v-if="info.units">{{ info.units.toLowerCase() }}</span> on {{ xFormat(bisect.xVal) }}
+        <span v-for="(element, index) in sumstat" :key="element.key">
+        {{element.key}}:<b> {{ yFormat(bisect.yVal[index]) }}</b>
+        </span>, on {{ xFormat(bisect.xVal) }}
       </p>
     </transition>
     <svg
@@ -31,11 +32,15 @@
 
         <!-- Line -->
         <path
+          v-for="path in paths"
+          :key="path.key"
           fill="none"
-          stroke="steelblue"
+          :stroke="path.color"
+          :stroke-dashoffset="path.pathLength"
+          :stroke-dasharray="path.pathLength"
           stroke-width="2"
           class="value-line"
-          d=""
+          :d="path.d"
         />
 
         <!-- Tooltip -->
@@ -46,8 +51,8 @@
             stroke-dasharray="3px"
             opacity=".5"
             y1="0"
-            :y2="svgHeight - bisect.y"
-            :transform="`translate(${bisect.x}, ${bisect.y})`"
+            :y2="svgHeight - bisect.yMin"
+            :transform="`translate(${bisect.x}, ${bisect.yMin})`"
           />
 
           <line
@@ -56,17 +61,36 @@
             stroke-dasharray="3px"
             opacity=".5"
             :x2="svgWidth * 2"
-            :transform="`translate(${-svgWidth}, ${bisect.y})`"
+            :transform="`translate(${-svgWidth}, ${bisect.yMin})`"
           />
 
           <circle
+            v-for="(element,index) in sumstat"
+            :key="element.key"
             class="circle-tool"
             fill="white"
             stroke="black"
             r="4"
-            :transform="`translate(${bisect.x}, ${bisect.y})`"
+            :transform="`translate(${bisect.x}, ${bisect.y[index]})`"
           />
         </g>
+      </g>
+    </svg>
+    <svg
+      v-if="redrawToggle === true"
+      :width="svgWidth + margin.left + margin.right"
+      :height="svgHeight/8">
+      <g 
+        v-for="(path, index) in paths"
+        :key="path.key"
+        :transform="`translate(${margin.left+ 100* index}, ${20})`"
+        class="cell"
+      >
+        <circle
+          :fill="path.color"
+          r="6"
+        />
+        <text :fill="path.color" transform="translate(18,10)">{{path.key}}</text>
       </g>
     </svg>
     <p>
@@ -87,9 +111,11 @@ import { max, min, bisector } from "d3-array";
 import { selectAll, select } from "d3-selection";
 import { axisLeft, axisBottom } from "d3-axis";
 import { transition } from "d3-transition";
+import { nest, values } from "d3-collection";
+import { schemeSet1 } from "d3-scale-chromatic";
 
 export default {
-  name: "LineChart",
+  name: "MultiLineChart",
   props: {
     title: String,
     source: String,
@@ -114,8 +140,8 @@ export default {
     xTicks: {
       type: Object,
       default: () => ({
-        interval: d3.timeMonth.every(2),
-        format: d3.timeFormat("%b %e"),
+        interval: d3.timeMonth.every(4),
+        format: d3.timeFormat("%b - %y"),
       }),
     },
     data: Array,
@@ -139,11 +165,13 @@ export default {
     redrawToggle: true,
     mouseOver: false,
     bisect: {
-      x: null,
-      y: null,
-      xVal: null,
-      yVal: null,
+      x: "",
+      xVal: "",
+      yVal: {},
+      y: {},
+      yMin: null,
     },
+    paths: [],
   }),
   methods: {
     renderAxes() {
@@ -205,59 +233,39 @@ export default {
       select(".gf-x-grid path").attr("stroke-opacity", "0");
     },
     renderLine(data) {
-      const line = d3
-        .line()
-        .x((d) => {
-          //console.log(d.date, d.value);
-          return this.xScale(d[this.xKey]);
-        })
-        .y((d) => {
-          return this.yScale(d[this.yKey]);
+      console.log(this.sumstat);
+      
+      this.paths = [];
+      this.sumstat.forEach(element => {
+        let d = this.line(element.values)
+
+        this.paths.push({
+          key: element.key,
+          d: d,
+          color: this.color(element.key),
+          pathLength: this.svgWidth*2,
         });
+      })
 
-      let path = select(".value-line")
-        .datum(data)
-        .attr("d", (d) => {
-          return line(d);
-        });
-      // .transition()
-      // .delay((d, i) => {
-      //   return i * 150;
-      // })
-      // .duration(1000)
-      const pathLength = path.node().getTotalLength();
-      const transitionPath = d3
-        .transition()
-        .ease(d3.easeSin)
-        .duration(1500);
+      setTimeout(() => {
+        let path = selectAll(".value-line")
+        //console.log("path length", path.node().getTotalLength(), this.svgWidth)
 
-      path
-        .attr("stroke-dashoffset", pathLength)
-        .attr("stroke-dasharray", pathLength)
-        .transition(transitionPath)
-        .attr("stroke-dashoffset", 0);
-    },
-    highlightSpecial() {
-      if (this.xSpecial.length > 0) {
-        //
-      }
+        const transitionPath = d3
+          .transition()
+          .ease(d3.easeSin)
+          .duration(1500);
 
-      if (this.ySpecial.length > 0) {
-        //
-      }
+        path
+          .transition(transitionPath)
+          .attr("stroke-dashoffset", 0);
+      }, 300);
+      
     },
     AnimateLoad() {
       this.renderAxes();
       this.renderGrid();
       this.renderLine(this.data);
-
-      //Special Dates
-      let sDates = [
-        { Date: new Date("Jan 20, 2020"), text: "First U.S. Covid-19 Case" },
-        { Date: new Date("Mar 13, 2020"), text: "National Emergency Declared" },
-        { Date: new Date("March 13, 2020"), text: "CARES Act Enacted" },
-        { Date: new Date("March 13, 2020"), text: "Stimulus Payments Start" },
-      ];
     },
     mousemove({ offsetX }) {
       if (this.data.length < 0) {
@@ -265,8 +273,8 @@ export default {
       }
 
       let x0 = this.xScale.invert(offsetX - this.margin.left),
-        i = this.bisectX(this.data, x0, 1),
-        d = this.data[i];
+        i = this.bisectX(this.sumstat[0].values, x0, 1),
+        d = this.sumstat[0].values[i];
 
       if (!d) {
         console.log("couldn't find d with i:", i);
@@ -274,9 +282,16 @@ export default {
       }
 
       this.bisect.x = this.xScale(d.date);
-      this.bisect.y = this.yScale(d.value);
       this.bisect.xVal = d.date;
-      this.bisect.yVal = d.value;
+
+      this.sumstat.forEach((element,index) => {
+        this.bisect.y[index] = this.yScale(element.values[i].value)
+        this.bisect.yVal[index] = element.values[i].value
+      })
+
+      this.bisect.yMin = min(values(this.bisect.y))
+      //console.log(this.bisect);
+      
     },
     mouseover() {
       this.mouseOver = true;
@@ -298,6 +313,11 @@ export default {
     },
   },
   computed: {
+    sumstat() {
+      return nest()
+        .key((d) => { return d.key})
+        .entries(this.data)
+    },
     dataMax() {
       return max(this.data, (d) => {
         return d[this.yKey];
@@ -322,6 +342,16 @@ export default {
         .rangeRound([this.svgHeight, 0])
         .domain([this.dataMin > 0 ? 0 : this.dataMin, (this.dataMax * 6) / 5])
         .nice();
+    },
+    line() {
+      return d3
+        .line()
+        .x((d) => { return this.xScale(d[this.xKey]); })
+        .y((d) => { return this.yScale(d[this.yKey]); });
+    },
+    color() {
+      let res = this.data.map((d) => { return d.key})
+      return d3.scaleOrdinal(schemeSet1).domain(res);
     },
     bisectX() {
       return bisector((d) => d[this.xKey]).left;
