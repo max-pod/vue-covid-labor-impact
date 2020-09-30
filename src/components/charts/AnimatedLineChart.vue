@@ -2,19 +2,11 @@
   <div id="container" class="svg-container" align="left">
     <h1>
       {{ title }}
-      <small v-if="info.last_updated"> (updated {{ xFormat(info.last_updated) }})</small>
+      <small v-if="info.last_updated">
+        (updated {{ xFormat(info.last_updated) }})</small
+      >
     </h1>
-    <transition name="fade">
-      <p v-if="mouseOver">
-        <span v-for="(element, index) in sumstat" :key="element.key">
-        {{element.key}}:<b> {{ yFormat(bisect.yVal[index]) }}</b>
-        </span>, on {{ xFormat(bisect.xVal) }}
-      </p>
-    </transition>
     <svg
-      @mousemove="mousemove"
-      @mouseover="mouseover"
-      @mouseleave="mouseleave"
       v-if="redrawToggle === true"
       :width="svgWidth + margin.left + margin.right"
       :height="svgHeight + margin.top + margin.bottom"
@@ -36,61 +28,27 @@
           :key="path.key"
           fill="none"
           :stroke="path.color"
-          :stroke-dashoffset="path.pathLength"
-          :stroke-dasharray="path.pathLength"
           stroke-width="2"
           class="value-line"
           :d="path.d"
         />
-
-        <!-- Tooltip -->
-        <g v-if="mouseOver" class="focus">
-          <line
-            class="x-tool"
-            stroke="black"
-            stroke-dasharray="3px"
-            opacity=".5"
-            y1="0"
-            :y2="svgHeight - bisect.yMin"
-            :transform="`translate(${bisect.x}, ${bisect.yMin})`"
-          />
-
-          <line
-            class="y-tool"
-            stroke="black"
-            stroke-dasharray="3px"
-            opacity=".5"
-            :x2="svgWidth * 2"
-            :transform="`translate(${-svgWidth}, ${bisect.yMin})`"
-          />
-
-          <circle
-            v-for="(element,index) in sumstat"
-            :key="element.key"
-            class="circle-tool"
-            fill="white"
-            stroke="black"
-            r="4"
-            :transform="`translate(${bisect.x}, ${bisect.y[index]})`"
-          />
-        </g>
       </g>
     </svg>
     <svg
       v-if="redrawToggle === true"
       :width="svgWidth + margin.left + margin.right"
-      :height="svgHeight/8">
-      <g 
+      :height="svgHeight / 8"
+    >
+      <g
         v-for="(path, index) in paths"
         :key="path.key"
-        :transform="`translate(${margin.left+ 100* index}, ${20})`"
+        :transform="`translate(${6+ 55 * index}, ${20})`"
         class="cell"
       >
-        <circle
-          :fill="path.color"
-          r="6"
-        />
-        <text :fill="path.color" transform="translate(18,10)">{{path.key}}</text>
+        <circle :fill="path.color" r="6" />
+        <text :fill="path.color" :transform="`translate(10,${svgHeight/32})`">
+          {{ path.key }}
+        </text>
       </g>
     </svg>
     <p>
@@ -107,15 +65,15 @@ import * as d3 from "d3"; // TODO: OPTIMIZE THE FUCK OUT OF THIS
 import { scaleLinear, scaleTime } from "d3-scale";
 import { timeFormat } from "d3-time-format";
 import { format } from "d3-format";
-import { max, min, bisector } from "d3-array";
+import { max, maxIndex, min, bisector } from "d3-array";
 import { selectAll, select } from "d3-selection";
 import { axisLeft, axisBottom } from "d3-axis";
 import { transition } from "d3-transition";
 import { nest, values } from "d3-collection";
-import { schemeSet1 } from "d3-scale-chromatic";
+import { schemeCategory10, schemePaired, schemeSet1 } from "d3-scale-chromatic";
 
 export default {
-  name: "MultiLineChart",
+  name: "AnimatedLineChart",
   props: {
     title: String,
     source: String,
@@ -129,19 +87,18 @@ export default {
     },
     xFormat: {
       type: Function,
-      default: timeFormat("%b %d"),
+      default: format(",.0f"),
     },
     yFormat: {
       type: Function,
-      default: d3.format(",.0f"),
+      default: format(",.0f"),
     },
     xSpecial: Array,
     ySpecial: Array,
     xTicks: {
       type: Object,
       default: () => ({
-        interval: d3.timeMonth.every(4),
-        format: d3.timeFormat("%b - %y"),
+        format: format(",.0f"),
       }),
     },
     data: Array,
@@ -171,6 +128,7 @@ export default {
       y: {},
       yMin: null,
     },
+    animatedData: [],
     paths: [],
   }),
   methods: {
@@ -179,13 +137,7 @@ export default {
       select(".x-axis")
         .call(
           axisBottom(this.xScale)
-            .tickValues([
-              this.xScale.invert(0),
-              ...this.xTicks.interval.range(
-                this.xScale.domain()[0],
-                this.xScale.domain()[1]
-              ),
-            ])
+            .ticks(10)
             .tickFormat(this.xTicks.format)
         )
         .selectAll(".tick line")
@@ -234,70 +186,50 @@ export default {
     },
     renderLine(data) {
       //console.log(this.sumstat);
-      
+
       this.paths = [];
-      this.sumstat.forEach(element => {
-        let d = this.line(element.values)
+      this.sumstat.forEach((element, index) => {
+        let d = this.line(element.values);
 
-        this.paths.push({
-          key: element.key,
-          d: d,
-          color: this.color(element.key),
-          pathLength: this.svgWidth*2,
-        });
-      })
+        if (this.sumstat.length-1 == index) {
+          console.log("animating final graph")
+          setTimeout(() => {
+            this.paths.push({
+              key: element.key,
+              d: d,
+              color: this.color(element.key),
+              pathLength: this.svgWidth*1.2,
+            });
+          
+          }, 2000);
+        } else {
+          this.paths.push({
+            key: element.key,
+            d: d,
+            color: this.color(element.key),
+            pathLength: this.svgWidth*1.2,
+          });
+        }
+      });
 
-      setTimeout(() => {
-        let path = selectAll(".value-line")
-        //console.log("path length", path.node().getTotalLength(), this.svgWidth)
+      // setTimeout(() => {
+      //   let path = selectAll(".value-line");
+      //   //console.log("path length", path.node().getTotalLength(), this.svgWidth)
 
-        const transitionPath = d3
-          .transition()
-          .ease(d3.easeSin)
-          .duration(1500);
+      //   const transitionPath = d3
+      //     .transition()
+      //     .ease(d3.easeSin)
+      //     .duration(1500);
 
-        path
-          .transition(transitionPath)
-          .attr("stroke-dashoffset", 0);
-      }, 300);
-      
+      //   path.transition(transitionPath).attr("stroke-dashoffset", 0);
+      // }, 300);
     },
     AnimateLoad() {
       this.renderAxes();
       this.renderGrid();
       this.renderLine(this.data);
-    },
-    mousemove({ offsetX }) {
-      if (this.data.length < 0) {
-        return;
-      }
 
-      let x0 = this.xScale.invert(offsetX - this.margin.left),
-        i = this.bisectX(this.sumstat[0].values, x0, 1),
-        d = this.sumstat[0].values[i];
 
-      if (!d) {
-        console.log("couldn't find d with i:", i);
-        return;
-      }
-
-      this.bisect.x = this.xScale(d.date);
-      this.bisect.xVal = d.date;
-
-      this.sumstat.forEach((element,index) => {
-        this.bisect.y[index] = this.yScale(element.values[i].value)
-        this.bisect.yVal[index] = element.values[i].value
-      })
-
-      this.bisect.yMin = min(values(this.bisect.y))
-      //console.log(this.bisect);
-      
-    },
-    mouseover() {
-      this.mouseOver = true;
-    },
-    mouseleave() {
-      this.mouseOver = false;
     },
     AddResizeListener() {
       // redraw the chart 300ms after the window has been resized
@@ -313,6 +245,11 @@ export default {
     },
   },
   computed: {
+    recoveryBisector() {
+      return bisector((d) => {
+        return d.rawDate;
+      }).left;
+    },
     sumstat() {
       return nest()
         .key((d) => { return d.key})
@@ -329,7 +266,7 @@ export default {
       });
     },
     xScale() {
-      return scaleTime()
+      return scaleLinear()
         .rangeRound([0, this.svgWidth])
         .domain(
           d3.extent(this.data, (d) => {
@@ -346,11 +283,17 @@ export default {
     line() {
       return d3
         .line()
-        .x((d) => { return this.xScale(d[this.xKey]); })
-        .y((d) => { return this.yScale(d[this.yKey]); });
+        .x((d) => {
+          return this.xScale(d[this.xKey]);
+        })
+        .y((d) => {
+          return this.yScale(d[this.yKey]);
+        });
     },
     color() {
-      let res = this.data.map((d) => { return d.key})
+      let res = this.data.map((d) => {
+        return d.key;
+      });
       return d3.scaleOrdinal(schemeSet1).domain(res);
     },
     bisectX() {
