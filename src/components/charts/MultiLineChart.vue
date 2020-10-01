@@ -290,7 +290,6 @@ export default {
       })
 
       this.bisect.yMin = min(values(this.bisect.y))
-      //console.log(this.bisect);
       
     },
     mouseover() {

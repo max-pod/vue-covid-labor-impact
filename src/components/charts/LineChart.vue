@@ -133,8 +133,8 @@ export default {
     margin: {
       left: 100,
       right: 10,
-      bottom: 80,
-      top: 20,
+      bottom: 10,
+      top: 10,
     },
     redrawToggle: true,
     mouseOver: false,

@@ -24,7 +24,7 @@
 
         <!-- Line -->
         <path
-          v-for="path in paths"
+          v-for="path in animatedPath"
           :key="path.key"
           fill="none"
           :stroke="path.color"
@@ -40,13 +40,13 @@
       :height="svgHeight / 8"
     >
       <g
-        v-for="(path, index) in paths"
+        v-for="(path, index) in animatedPath"
         :key="path.key"
-        :transform="`translate(${6+ 55 * index}, ${20})`"
+        :transform="`translate(${6 + 55 * index}, ${20})`"
         class="cell"
       >
         <circle :fill="path.color" r="6" />
-        <text :fill="path.color" :transform="`translate(10,${svgHeight/32})`">
+        <text :fill="path.color" :transform="`translate(10,${svgHeight / 32})`">
           {{ path.key }}
         </text>
       </g>
@@ -71,6 +71,12 @@ import { axisLeft, axisBottom } from "d3-axis";
 import { transition } from "d3-transition";
 import { nest, values } from "d3-collection";
 import { schemeCategory10, schemePaired, schemeSet1 } from "d3-scale-chromatic";
+
+import { interpolatePath } from "d3-interpolate-path";
+import * as tweenObj from "@tweenjs/tween.js";
+const TWEEN = tweenObj.default;
+
+import gsap from "gsap";
 
 export default {
   name: "AnimatedLineChart",
@@ -116,8 +122,8 @@ export default {
     margin: {
       left: 100,
       right: 10,
-      bottom: 80,
-      top: 20,
+      bottom: 10,
+      top: 10,
     },
     redrawToggle: true,
     mouseOver: false,
@@ -130,6 +136,8 @@ export default {
     },
     animatedData: [],
     paths: [],
+    t: 0,
+    delayedT: 0,
   }),
   methods: {
     renderAxes() {
@@ -184,52 +192,78 @@ export default {
       select(".gf-y-grid path").attr("stroke-opacity", "0");
       select(".gf-x-grid path").attr("stroke-opacity", "0");
     },
+    getSmoothInterpolation(indexSeries, line) {
+      var interpolate = d3
+        .scaleLinear()
+        .domain([0, 1])
+        .range([1, indexSeries.length + 1]);
+
+      return function(t) {
+        var flooredX = Math.floor(interpolate(t));
+        var interpolatedLine = indexSeries.slice(0, flooredX);
+
+        if (flooredX > 0 && flooredX < indexSeries.length) {
+          var weight = interpolate(t) - flooredX;
+          var weightedLineAverage =
+            indexSeries[flooredX].y * weight +
+            indexSeries[flooredX - 1].y * (1 - weight);
+          interpolatedLine.push({
+            x: interpolate(t) - 1,
+            y: weightedLineAverage,
+          });
+        }
+
+        return line(interpolatedLine);
+      };
+    },
     renderLine(data) {
       //console.log(this.sumstat);
 
       this.paths = [];
       this.sumstat.forEach((element, index) => {
+        let fakeValues = [];
+        element.values.forEach((e, i) => {
+          fakeValues.push({ time: e.time, value: -0.001 * i });
+        });
+
+        console.log(element.values, fakeValues);
+
+        let fakeD = this.line(fakeValues);
         let d = this.line(element.values);
 
-        if (this.sumstat.length-1 == index) {
-          console.log("animating final graph")
+        if (this.sumstat.length - 1 == index) {
+          console.log("animating final graph");
           setTimeout(() => {
             this.paths.push({
               key: element.key,
-              d: d,
+              d: this.getSmoothInterpolation(element.values, this.line)(0.5),
               color: this.color(element.key),
-              pathLength: this.svgWidth*1.2,
+              pathLength: this.svgWidth * 1.2,
             });
-          
-          }, 2000);
+          }, 0);
         } else {
+          console.log(
+            "pathInterpolation",
+            this.getSmoothInterpolation(element.values, this.line)(0.5)
+          );
+
           this.paths.push({
             key: element.key,
-            d: d,
+            d: this.getSmoothInterpolation(element.values, this.line)(0.6),
             color: this.color(element.key),
-            pathLength: this.svgWidth*1.2,
+            pathLength: this.svgWidth * 1.2,
           });
         }
       });
-
-      // setTimeout(() => {
-      //   let path = selectAll(".value-line");
-      //   //console.log("path length", path.node().getTotalLength(), this.svgWidth)
-
-      //   const transitionPath = d3
-      //     .transition()
-      //     .ease(d3.easeSin)
-      //     .duration(1500);
-
-      //   path.transition(transitionPath).attr("stroke-dashoffset", 0);
-      // }, 300);
     },
     AnimateLoad() {
       this.renderAxes();
       this.renderGrid();
-      this.renderLine(this.data);
+      //this.renderLine(this.data);
 
-
+      //setTimeout(() => {
+      this.tween(0, 1);
+      //}, 1000);
     },
     AddResizeListener() {
       // redraw the chart 300ms after the window has been resized
@@ -243,6 +277,42 @@ export default {
         }, 300);
       });
     },
+    tween(start, end) {
+      let frameHandler;
+
+      // Handles updating the tween on each frame.
+      const animate = function(currentTime) {
+        TWEEN.update(currentTime);
+        frameHandler = requestAnimationFrame(animate);
+      };
+      frameHandler = requestAnimationFrame(animate);
+
+      console.log("end val", end)
+      const time = {timeVal: start}; // Start at (0, 0)
+      const tween = new TWEEN.Tween(time) // Create a new tween that modifies 'coords'.
+        .to({timeVal: end}, 6000) // Move to (300, 200) in 1 second.
+        .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
+        .onUpdate(() => {
+          // Called after tween.js updates 'coords'.
+          // Move 'box' to the position described by 'coords' with a CSS translation.
+          //console.log("TIME IS EQUAL TO", time.timeVal)
+          this.t = time.timeVal;
+        })
+        .start(); // Start the tween immediately.
+
+      const tween2 = new TWEEN.Tween(time) // Create a new tween that modifies 'coords'.
+        .to({timeVal: end}, 10000) // Move to (300, 200) in 1 second.
+        .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
+        .onUpdate(() => {
+          // Called after tween.js updates 'coords'.
+          // Move 'box' to the position described by 'coords' with a CSS translation.
+          //console.log("TIME IS EQUAL TO", time.timeVal)
+          this.delayedT = time.timeVal;
+        })
+        .delay(6000)
+        .start();
+        
+    },
   },
   computed: {
     recoveryBisector() {
@@ -252,8 +322,10 @@ export default {
     },
     sumstat() {
       return nest()
-        .key((d) => { return d.key})
-        .entries(this.data)
+        .key((d) => {
+          return d.key;
+        })
+        .entries(this.data);
     },
     dataMax() {
       return max(this.data, (d) => {
@@ -289,6 +361,33 @@ export default {
         .y((d) => {
           return this.yScale(d[this.yKey]);
         });
+    },
+    animatedPath() {
+      let animatedPaths = [];
+      this.sumstat.forEach((element, index) => {
+        let d = this.line(element.values);
+
+        if (this.sumstat.length - 1 == index) {
+          console.log("animating final graph");
+          animatedPaths.push({
+            key: element.key,
+            d: this.getSmoothInterpolation(element.values, this.line)(this.delayedT),
+            color: this.color(element.key),
+            pathLength: this.svgWidth * 1.2,
+          });
+        } else {
+          animatedPaths.push({
+            key: element.key,
+            d: this.getSmoothInterpolation(
+              element.values,
+              this.line
+            )(this.t),
+            color: this.color(element.key),
+            pathLength: this.svgWidth * 1.2,
+          });
+        }
+      });
+      return animatedPaths;
     },
     color() {
       let res = this.data.map((d) => {

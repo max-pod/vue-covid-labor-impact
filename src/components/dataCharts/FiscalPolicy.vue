@@ -19,6 +19,7 @@ import { timeParse } from "d3-time-format";
 import { max, maxIndex, min, minIndex, bisector } from "d3-array";
 import { fredUnits, template } from "../functions/d3-max";
 import { format } from "d3-format";
+
 //PCEPI
 const apiKey = "f03c8ce7f9abbc474ccb57117ac26c86"; //GOOD THING I AM NOT PUBLICALLY HOSTING THIS ON GITHUB, OTHERWISE THIS WOULD BE PRETTY DUMB
 const set1 = "PAYEMS";
