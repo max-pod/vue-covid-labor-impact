@@ -237,15 +237,6 @@ export default {
         .transition(transitionPath)
         .attr("stroke-dashoffset", 0);
     },
-    highlightSpecial() {
-      if (this.xSpecial.length > 0) {
-        //
-      }
-
-      if (this.ySpecial.length > 0) {
-        //
-      }
-    },
     AnimateLoad() {
       this.renderAxes();
       this.renderGrid();

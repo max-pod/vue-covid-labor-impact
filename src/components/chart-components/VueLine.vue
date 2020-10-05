@@ -46,8 +46,6 @@ export default {
                 scaleLinear()
                 .domain([0, 1])
                 .range([1, indexSeries.length + 1]);
-            
-            console.log("x:",xKey, "y:", yKey)
 
             return function(t) {
                 const flooredX = Math.floor(interpolate(t));
@@ -55,13 +53,11 @@ export default {
 
                 if(flooredX > 0 && flooredX < indexSeries.length) {
                     const weight = interpolate(t) - flooredX;
-
                     const x = indexSeries[flooredX][xKey] * weight + indexSeries[flooredX-1][xKey] * (1-weight);
                     const y = indexSeries[flooredX][yKey] * weight + indexSeries[flooredX-1][yKey] * (1-weight);
 
                     interpolatedLine.push({[xKey]:x, [yKey]: y} );
                 }
-
                 return line(interpolatedLine);
             }
         },

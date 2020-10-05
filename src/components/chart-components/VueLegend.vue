@@ -33,7 +33,6 @@ export default {
     methods: {
       position(index, length) {
         const maxCount = 6;
-        console.log("x", index%maxCount)
         let x = (index%maxCount != 0) ? index%maxCount-1 : 5
         return [30+70*(x),Math.ceil(index/maxCount)*25]
       },
