@@ -58,7 +58,7 @@ export default {
             }
         }
         console.log("Dataset: ", dataSet)
-        this.ChartTitle = "oh shit some stuff";
+        this.ChartTitle = "Random Chart";
         this.ChartData = dataSet;
       })
       .catch((error) => {

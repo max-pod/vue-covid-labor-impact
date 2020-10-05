@@ -7,8 +7,8 @@
   >
     <div class="step" data-source="UnemploymentCombined">
       <h1>What was Covid-19's Impact on Labor?</h1>
-      <p>By <a href="https://www.linkedin.com/in/maxim-podolski-95bbb0158/">marco fucking polo</a></p>
-      <p>Show Basic Unemployment Graph.</p>
+      <p>By <a href="https://www.linkedin.com/in/maxim-podolski-95bbb0158/">Maxim Podolski</a></p>
+      <p>Covid-19 Posed a Disproportionate Impact</p>
     </div>
     <div class="step" data-source="MonetaryPolicy">
       <h1>Despite the ....</h1>

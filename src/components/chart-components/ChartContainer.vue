@@ -8,9 +8,9 @@
     
     <slot name="infoTop"/>
     
-    <center>% job losses relative to prior employment peak</center>
+    <center>{{chartNote}}</center>
     <slot></slot>
-    <center>Number of Days to Full Recovery</center>
+    <center>{{xAxisNote}}</center>
 
     <slot name="legend"/>
     <slot name="infoBottom">
@@ -31,34 +31,20 @@ import { format } from "d3-format";
 export default {
     name: "ChartContainer",
     props: {
-        title: String,
-        source: String,
-        xKey: {
+      title: {
         type: String,
-        default: "date",
-        },
-        yKey: {
+        default: "Chart Title",
+      },
+      chartNote: {
         type: String,
-        default: "value",
-        },
-        xFormat: {
-        type: Function,
-        default: format(",.0f"),
-        },
-        yFormat: {
-        type: Function,
-        default: format(",.0f"),
-        },
-        xSpecial: Array,
-        ySpecial: Array,
-        xTicks: {
-        type: Object,
-        default: () => ({
-            format: format(",.0f"),
-        }),
-        },
-        data: Array,
-        info: Object,
+        default: "Chart Description"
+      },
+      source: {
+        type: String,
+        default: "Chart Source"
+      },
+      xAxisNote: String,
+      info: Object,
   },
 }
 </script>

@@ -140,10 +140,10 @@ export default {
   data: () => ({
     svgWidth: 0,
     margin: {
-      left: 100,
+      left: 30,
       right: 10,
-      bottom: 80,
-      top: 20,
+      bottom: 60,
+      top: 10,
     },
     redrawToggle: true,
     mouseOver: false,
