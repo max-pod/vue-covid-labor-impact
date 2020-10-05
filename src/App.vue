@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
-    <Sections @stepUpdate="handleStepUpdate"/>
-    <Vis 
+  <div id="app" class="columns is-mobile">
+    <Sections class="column is-3-phone is-5-tablet is-6-desktop is-6-widescreen is-5-fullhd" @stepUpdate="handleStepUpdate"/>
+    <Vis class="column is-9-phone is-7-tablet is-6-desktop is-5-widescreen is-6-fullhd"
         :stepIndex="stepIndex"
         :stepSource="stepSource"
     />
@@ -22,8 +22,8 @@ export default {
   },
   methods: {
       handleStepUpdate(event) {
-          this.stepIndex = event.stepIndex;
-          this.stepSource = event.stepSource;
+        this.stepIndex = event.stepIndex;
+        this.stepSource = event.stepSource;
       }
   },
   components: {
@@ -48,10 +48,6 @@ body {
   background-color: rgb(245, 244, 241);
   overflow-x: hidden;
   height: 100%;
-}
-
-.categoryLegend {
-  font-family: "Domine";
 }
 
 h1,

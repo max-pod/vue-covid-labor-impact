@@ -299,7 +299,7 @@ export default {
       return d3.scaleOrdinal(schemeSet1).domain(res);
     },
     svgHeight() {
-      return this.svgWidth / 1.61803398875; // golden ratio
+      return this.svgWidth * .6; // golden ratio
     },
   },
   watch: {

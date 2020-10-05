@@ -25,6 +25,7 @@
 <script>
 import "intersection-observer";
 import Scrollama from "vue-scrollama";
+import 'buefy/dist/buefy.css'
 
 export default {
   name: "Sections",
@@ -54,12 +55,7 @@ export default {
 
 <style scoped>
 #sections {
-  position: relative;
-  display: inline-block;
-  width: 400px;
-  top: 60px;
-  z-index: 90;
-  margin-right: 50px;
+  top: 100px;
 }
 
 .step {

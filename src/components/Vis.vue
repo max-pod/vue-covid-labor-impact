@@ -25,8 +25,8 @@ export default {
     display: inline-block;
     position: fixed;
     top: 100px;
-    left: 40%;
-    width: 60%;
+    height: 100%;
+    right: 0%;
     z-index: 1;
     margin-left: 0;
 }
