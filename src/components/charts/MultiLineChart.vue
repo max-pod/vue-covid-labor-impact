@@ -6,8 +6,8 @@
       <transition name="fade">
         <p v-if="mouseOver">
           <span v-for="(element, index) in sumstat" :key="element.key">
-          {{element.key}}:<b> {{ yFormat(bisect.yVal[index]) }}</b>
-          </span>, on {{ xFormat(bisect.xVal) }}
+          {{element.key}}:<b> {{ yFormat(yVal[index]) }}</b>
+          </span>
         </p>
       </transition>
     </template>
@@ -46,6 +46,7 @@
           />
 
           <VueToolTip
+            @yVal="yVal = $event"
             v-if="mouseOver"
             :sumstat="sumstat"
             :xKey="xKey"
@@ -93,6 +94,15 @@
       </svg>
     </template>
 
+    <template #legend>
+      <VueLegend
+        :values="sumstat"
+        :focused="focused"
+        :color="color"
+        :svgHeight="svgHeight/2"
+        :svgWidth="svgWidth"
+      />
+    </template>
   </ChartContainer>
 </template>
 
@@ -106,10 +116,11 @@ import { selectAll, select } from "d3-selection";
 import { axisLeft, axisBottom } from "d3-axis";
 import { transition } from "d3-transition";
 import { nest, values } from "d3-collection";
-import { schemeSet1 } from "d3-scale-chromatic";
+import { schemeSet1, interpolateTurbo } from "d3-scale-chromatic";
 
 import ChartContainer from "../chart-components/ChartContainer"
 import VueToolTip from "../chart-components/VueToolTip"
+import VueLegend from "../chart-components/VueLegend"
 
 export default {
   name: "MultiLineChart",
@@ -170,6 +181,8 @@ export default {
     },
     paths: [],
     offsetX: null,
+    yVal: [0],
+    focused: -1,
   }),
   methods: {
     renderAxes() {
@@ -234,13 +247,13 @@ export default {
       //console.log(this.sumstat);
       
       this.paths = [];
-      this.sumstat.forEach(element => {
+      this.sumstat.forEach((element, index) => {
         let d = this.line(element.values)
 
         this.paths.push({
           key: element.key,
           d: d,
-          color: this.color(element.key),
+          color: this.color(index),
           pathLength: this.svgWidth*2,
         });
       })
@@ -347,8 +360,7 @@ export default {
         .y((d) => { return this.yScale(d[this.yKey]); });
     },
     color() {
-      let res = this.data.map((d) => { return d.key})
-      return d3.scaleOrdinal(schemeSet1).domain(res);
+      return (i) => { return interpolateTurbo((i+1)/(this.sumstat.length+1))};
     },
     bisectX() {
       return bisector((d) => d[this.xKey]).left;
@@ -368,7 +380,7 @@ export default {
   },
   components: {
     //VueLine,
-    //VueLegend,
+    VueLegend,
     ChartContainer,
     VueToolTip,
   },

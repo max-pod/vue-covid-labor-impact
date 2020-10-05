@@ -34,6 +34,8 @@
 <script>
 import { max, min, bisector } from "d3-array";
 import { values } from "d3-collection";
+import { timeFormat } from "d3-time-format";
+import { format } from "d3-format";
 
 export default {
   name: "VueToolTip",
@@ -55,48 +57,24 @@ export default {
     offsetX: Number,
   },
   methods: {
-    // mousemove({ offsetX }) {
-    //   if (this.data.length < 0) {
-    //     return;
-    //   }
-
-    //   let x0 = this.xScale.invert(offsetX - this.margin.left),
-    //     i = this.bisectX(this.sumstat[0].values, x0, 1),
-    //     d = this.sumstat[0].values[i];
-
-    //   if (!d) {
-    //     console.log("couldn't find d with i:", i);
-    //     return;
-    //   }
-
-    //   this.bisect.x = this.xScale(d.date);
-    //   this.bisect.xVal = d.date;
-
-    //   this.sumstat.forEach((element, index) => {
-    //     this.bisect.y[index] = this.yScale(element.values[i].value);
-    //     this.bisect.yVal[index] = element.values[i].value;
-    //   });
-
-    //   this.bisect.yMin = min(values(this.bisect.y));
-    // },
-        bisectFunc() {
-            return bisector((d) => d[this.xKey]).left
-        },
+    bisectFunc() {
+        return bisector((d) => d[this.xKey]).left
+    },
+    xFormat() {
+        return timeFormat("%b %d");
+    },
+    yFormat() {
+        return format(",.0f");
+    },
    },
   computed: {
-    offsetXX() {
-        return this.offsetX+1;
-    },
     iBisect() {
         let x0 = this.xScale.invert(this.offsetX - this.margin.left),
         i = this.bisectFunc()(this.sumstat[0].values, x0, 1)
 
-        console.log("i", i)
-
         return i;
     },
     xValBisect() {
-        console.log("BISECTING XVAL", this.sumstat[0].values[this.iBisect][this.xKey])
         return this.sumstat[0].values[this.iBisect][this.xKey]
     },
     xBisect() {
@@ -106,9 +84,9 @@ export default {
         let yVal = [];
         
         this.sumstat.forEach((element, index) => {
-            console.log("COMPUTUED ELEMENT", element.values[this.iBisect][this.yKey]);
             yVal.push(element.values[this.iBisect][this.yKey])
         });
+        this.$emit("yVal", yVal);
         return yVal;
     },
     yBisect() {
