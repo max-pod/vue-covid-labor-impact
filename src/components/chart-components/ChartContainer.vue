@@ -6,14 +6,14 @@
     </h1>
     <br/>
     
-    <slot name="info-top"/>
+    <slot name="infoTop"/>
     
     <center>% job losses relative to prior employment peak</center>
     <slot></slot>
     <center>Number of Days to Full Recovery</center>
 
     <slot name="legend"/>
-    <slot name="info-bottom">
+    <slot name="infoBottom">
         <p>
         <i>{{ source }}</i>
         </p>

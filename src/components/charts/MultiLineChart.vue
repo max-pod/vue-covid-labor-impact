@@ -1,105 +1,86 @@
 <template>
-  <div id="container" class="svg-container" align="left">
-    <h1>
-      {{ title }}
-      <small v-if="info.last_updated"> (updated {{ xFormat(info.last_updated) }})</small>
-    </h1>
-    <transition name="fade">
-      <p v-if="mouseOver">
-        <span v-for="(element, index) in sumstat" :key="element.key">
-        {{element.key}}:<b> {{ yFormat(bisect.yVal[index]) }}</b>
-        </span>, on {{ xFormat(bisect.xVal) }}
-      </p>
-    </transition>
-    <svg
-      @mousemove="mousemove"
-      @mouseover="mouseover"
-      @mouseleave="mouseleave"
-      v-if="redrawToggle === true"
-      :width="svgWidth + margin.left + margin.right"
-      :height="svgHeight + margin.top + margin.bottom"
-    >
-      <g :transform="`translate(${margin.left}, ${margin.top})`">
-        <!-- Axis -->
-        <g class="x-axis" :transform="`translate(0, ${svgHeight})`" />
-        <g class="y-axis" />
+  <ChartContainer
+    :info="info"
+    :title="title">
+    <template #infoTop>
+      <transition name="fade">
+        <p v-if="mouseOver">
+          <span v-for="(element, index) in sumstat" :key="element.key">
+          {{element.key}}:<b> {{ yFormat(bisect.yVal[index]) }}</b>
+          </span>, on {{ xFormat(bisect.xVal) }}
+        </p>
+      </transition>
+    </template>
 
-        <!-- Grids -->
-        <g>
-          <g class="gf-x-grid grid" :transform="`translate(0, ${svgHeight})`" />
-          <g class="gf-y-grid grid" />
-        </g>
-
-        <!-- Line -->
-        <path
-          v-for="path in paths"
-          :key="path.key"
-          fill="none"
-          :stroke="path.color"
-          :stroke-dashoffset="path.pathLength"
-          :stroke-dasharray="path.pathLength"
-          stroke-width="2"
-          class="value-line"
-          :d="path.d"
-        />
-
-        <!-- Tooltip -->
-        <g v-if="mouseOver" class="focus">
-          <line
-            class="x-tool"
-            stroke="black"
-            stroke-dasharray="3px"
-            opacity=".5"
-            y1="0"
-            :y2="svgHeight - bisect.yMin"
-            :transform="`translate(${bisect.x}, ${bisect.yMin})`"
-          />
-
-          <line
-            class="y-tool"
-            stroke="black"
-            stroke-dasharray="3px"
-            opacity=".5"
-            :x2="svgWidth * 2"
-            :transform="`translate(${-svgWidth}, ${bisect.yMin})`"
-          />
-
-          <circle
-            v-for="(element,index) in sumstat"
-            :key="element.key"
-            class="circle-tool"
-            fill="white"
-            stroke="black"
-            r="4"
-            :transform="`translate(${bisect.x}, ${bisect.y[index]})`"
-          />
-        </g>
-      </g>
-    </svg>
-    <svg
-      v-if="redrawToggle === true"
-      :width="svgWidth + margin.left + margin.right"
-      :height="svgHeight/8">
-      <g 
-        v-for="(path, index) in paths"
-        :key="path.key"
-        :transform="`translate(${margin.left+ 100* index}, ${20})`"
-        class="cell"
+    <template #default>
+      <svg
+        @mousemove="mousemove"
+        @mouseover="mouseover"
+        @mouseleave="mouseleave"
+        v-if="redrawToggle === true"
+        :width="svgWidth + margin.left + margin.right"
+        :height="svgHeight + margin.top + margin.bottom"
       >
-        <circle
-          :fill="path.color"
-          r="6"
-        />
-        <text :fill="path.color" transform="translate(18,10)">{{path.key}}</text>
-      </g>
-    </svg>
-    <p>
-      <i>{{ source }}</i>
-    </p>
-    <p v-if="info.notes">
-      <i>{{ info.notes }}</i>
-    </p>
-  </div>
+        <g :transform="`translate(${margin.left}, ${margin.top})`">
+          <!-- Axis -->
+          <g class="x-axis" :transform="`translate(0, ${svgHeight})`" />
+          <g class="y-axis" />
+
+          <!-- Grids -->
+          <g>
+            <g class="gf-x-grid grid" :transform="`translate(0, ${svgHeight})`" />
+            <g class="gf-y-grid grid" />
+          </g>
+
+          <!-- Line -->
+          <path
+            v-for="path in paths"
+            :key="path.key"
+            fill="none"
+            :stroke="path.color"
+            :stroke-dashoffset="path.pathLength"
+            :stroke-dasharray="path.pathLength"
+            stroke-width="2"
+            class="value-line"
+            :d="path.d"
+          />
+
+          <!-- Tooltip -->
+          <g v-if="mouseOver" class="focus">
+            <line
+              class="x-tool"
+              stroke="black"
+              stroke-dasharray="3px"
+              opacity=".5"
+              y1="0"
+              :y2="svgHeight - bisect.yMin"
+              :transform="`translate(${bisect.x}, ${bisect.yMin})`"
+            />
+
+            <line
+              class="y-tool"
+              stroke="black"
+              stroke-dasharray="3px"
+              opacity=".5"
+              :x2="svgWidth * 2"
+              :transform="`translate(${-svgWidth}, ${bisect.yMin})`"
+            />
+
+            <circle
+              v-for="(element,index) in sumstat"
+              :key="element.key"
+              class="circle-tool"
+              fill="white"
+              stroke="black"
+              r="4"
+              :transform="`translate(${bisect.x}, ${bisect.y[index]})`"
+            />
+          </g>
+        </g>
+      </svg>
+    </template>
+
+  </ChartContainer>
 </template>
 
 <script>
@@ -113,6 +94,8 @@ import { axisLeft, axisBottom } from "d3-axis";
 import { transition } from "d3-transition";
 import { nest, values } from "d3-collection";
 import { schemeSet1 } from "d3-scale-chromatic";
+
+import ChartContainer from "../chart-components/ChartContainer"
 
 export default {
   name: "MultiLineChart",
@@ -368,9 +351,14 @@ export default {
       }, 300);
     },
   },
+  components: {
+    //VueLine,
+    //VueLegend,
+    ChartContainer,
+  },
 };
 </script>
-
+}
 <style scoped>
 h1 {
   font-family: "Garamond";
