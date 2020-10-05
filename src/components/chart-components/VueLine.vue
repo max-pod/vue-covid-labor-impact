@@ -1,9 +1,10 @@
 <template>
-  <!-- Line -->
   <path
+    @mouseover="mouseover"
+    @mouseleave="mouseleave"
     fill="none"
     :stroke="color"
-    stroke-width="2"
+    :stroke-width="mouseOver ? '5px' : '2px'"
     class="value-line"
     :d="animatedPath"
   />
@@ -11,26 +12,41 @@
 
 <script>
 import { scaleLinear } from "d3-scale";
-//import { max, maxIndex, min, bisector } from "d3-array";
 import { interpolatePath } from "d3-interpolate-path";
 import { line } from "d3-shape";
 
 export default {
     name: "VueLine",
     props: {
+        xKey: {
+            type: String,
+            default: "date",
+        },
+        yKey: {
+            type: String,
+            default: "value",
+        },
         values: Array,
         id: String,
         line: Function,
-        color: String,
+        color: {
+            type: String,
+            default: "Blue"
+        },
         t: Number,
         isDelayed: Boolean,
     },
+    data: () => ({
+        mouseOver: false,
+    }),
     methods: {
-        getSmoothInterpolation(indexSeries, line) {
+        getSmoothInterpolation(indexSeries, line, xKey, yKey) {
             const interpolate =
                 scaleLinear()
                 .domain([0, 1])
                 .range([1, indexSeries.length + 1]);
+            
+            console.log("x:",xKey, "y:", yKey)
 
             return function(t) {
                 const flooredX = Math.floor(interpolate(t));
@@ -39,19 +55,27 @@ export default {
                 if(flooredX > 0 && flooredX < indexSeries.length) {
                     const weight = interpolate(t) - flooredX;
 
-                    const y = indexSeries[flooredX].value * weight + indexSeries[flooredX-1].value * (1-weight);
-                    const x = indexSeries[flooredX].time * weight + indexSeries[flooredX-1].time * (1-weight);
+                    const x = indexSeries[flooredX][xKey] * weight + indexSeries[flooredX-1][xKey] * (1-weight);
+                    const y = indexSeries[flooredX][yKey] * weight + indexSeries[flooredX-1][yKey] * (1-weight);
 
-                    interpolatedLine.push( {"time":x, "value": y} );
+                    interpolatedLine.push({[xKey]:x, [yKey]: y} );
                 }
 
                 return line(interpolatedLine);
             }
-        }
+        },
+        mouseover() {
+          this.mouseOver = true;
+          console.log("MOUSE OVER", this.id)
+          this.$emit("mouseOver", this.id)
+        },
+        mouseleave() {
+            this.mouseOver = false;
+        },
     },
     computed: {
         animatedPath() {
-            return this.getSmoothInterpolation(this.values, this.line)(this.t)
+            return this.getSmoothInterpolation(this.values, this.line, this.xKey, this.yKey)(this.t)
         }
     },
 }

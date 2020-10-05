@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@tweenjs/tween.js": "^18.6.0",
+    "buefy": "^0.9.3",
     "core-js": "^3.6.5",
     "d3": "^6.2.0",
     "d3-collection": "^1.0.7",

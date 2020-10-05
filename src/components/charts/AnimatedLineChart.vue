@@ -28,6 +28,8 @@
         <VueLine
           v-for="(sum, index) in sumstat"
           :key="sum.key"
+          :xKey="xKey"
+          :yKey="yKey"
           :values="sum.values"
           :line="line"
           :color="color(index)"
@@ -198,80 +200,11 @@ export default {
       select(".gf-y-grid path").attr("stroke-opacity", "0");
       select(".gf-x-grid path").attr("stroke-opacity", "0");
     },
-    getSmoothInterpolation(indexSeries, line) {
-      var interpolate = d3
-        .scaleLinear()
-        .domain([0, 1])
-        .range([1, indexSeries.length + 1]);
-
-      return function(t) {
-        var flooredX = Math.floor(interpolate(t));
-        var interpolatedLine = indexSeries.slice(0, flooredX);
-
-        if (flooredX > 0 && flooredX < indexSeries.length) {
-          var weight = interpolate(t) - flooredX;
-          var weightedLineAverage =
-            indexSeries[flooredX].y * weight +
-            indexSeries[flooredX - 1].y * (1 - weight);
-          interpolatedLine.push({
-            x: interpolate(t) - 1,
-            y: weightedLineAverage,
-          });
-        }
-
-        return line(interpolatedLine);
-      };
-    },
-    renderLine(data) {
-      //console.log(this.sumstat);
-
-      this.paths = [];
-      this.sumstat.forEach((element, index) => {
-        let fakeValues = [];
-        element.values.forEach((e, i) => {
-          fakeValues.push({ time: e.time, value: -0.001 * i });
-        });
-
-        console.log(element.values, fakeValues);
-
-        let fakeD = this.line(fakeValues);
-        let d = this.line(element.values);
-
-        if (this.sumstat.length - 1 == index) {
-          console.log("animating final graph");
-          setTimeout(() => {
-            this.paths.push({
-              key: element.key,
-              d: this.getSmoothInterpolation(element.values, this.line)(0.5),
-              color: this.color(element.key),
-              pathLength: this.svgWidth * 1.2,
-            });
-          }, 0);
-        } else {
-          console.log(
-            "pathInterpolation",
-            this.getSmoothInterpolation(element.values, this.line)(0.5)
-          );
-
-          this.paths.push({
-            key: element.key,
-            d: this.getSmoothInterpolation(element.values, this.line)(0.6),
-            color: this.color(element.key),
-            pathLength: this.svgWidth * 1.2,
-          });
-        }
-      });
-    },
     AnimateLoad() {
       this.renderAxes();
       this.renderGrid();
-      //this.renderLine(this.data);
 
-      console.log("A sumstat", this.sumstat)
-
-      //setTimeout(() => {
       this.tween(0, 1);
-      //}, 1000);
     },
     AddResizeListener() {
       // redraw the chart 300ms after the window has been resized
@@ -295,15 +228,11 @@ export default {
       };
       frameHandler = requestAnimationFrame(animate);
 
-      //console.log("end val", end)
       const time = {timeVal: start}; // Start at (0, 0)
       const tween = new TWEEN.Tween(time) // Create a new tween that modifies 'coords'.
         .to({timeVal: end}, 5000) // Move to (300, 200) in 1 second.
         .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
         .onUpdate(() => {
-          // Called after tween.js updates 'coords'.
-          // Move 'box' to the position described by 'coords' with a CSS translation.
-          //console.log("TIME IS EQUAL TO", time.timeVal)
           this.t = time.timeVal;
         })
         .start(); // Start the tween immediately.
@@ -312,9 +241,6 @@ export default {
         .to({timeVal: end}, 10000) // Move to (300, 200) in 1 second.
         .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
         .onUpdate(() => {
-          // Called after tween.js updates 'coords'.
-          // Move 'box' to the position described by 'coords' with a CSS translation.
-          //console.log("TIME IS EQUAL TO", time.timeVal)
           this.delayedT = time.timeVal;
         })
         .delay(6000)
@@ -326,11 +252,6 @@ export default {
     VueLine,
   },
   computed: {
-    recoveryBisector() {
-      return bisector((d) => {
-        return d.rawDate;
-      }).left;
-    },
     sumstat() {
       return nest()
         .key((d) => {
@@ -378,9 +299,6 @@ export default {
         return d.key;
       });
       return d3.scaleOrdinal(schemeSet1).domain(res);
-    },
-    bisectX() {
-      return bisector((d) => d[this.xKey]).left;
     },
     svgHeight() {
       return this.svgWidth / 1.61803398875; // golden ratio
