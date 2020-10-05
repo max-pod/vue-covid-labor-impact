@@ -108,7 +108,7 @@
 
 <script>
 import * as d3 from "d3"; // TODO: OPTIMIZE THE FUCK OUT OF THIS
-import { scaleLinear, scaleTime } from "d3-scale";
+import { scaleLinear, scaleTime, scaleOrdinal } from "d3-scale";
 import { timeFormat } from "d3-time-format";
 import { format } from "d3-format";
 import { max, min, bisector } from "d3-array";
@@ -359,14 +359,14 @@ export default {
         .x((d) => { return this.xScale(d[this.xKey]); })
         .y((d) => { return this.yScale(d[this.yKey]); });
     },
-    color() {
-      return (i) => { return interpolateTurbo((i+1)/(this.sumstat.length+1))};
-    },
     bisectX() {
       return bisector((d) => d[this.xKey]).left;
     },
     svgHeight() {
       return this.svgWidth / 1.61803398875; // golden ratio
+    },
+    color() {
+      return scaleOrdinal(schemeSet1).domain([0,this.sumstat.length-1]);
     },
   },
   watch: {

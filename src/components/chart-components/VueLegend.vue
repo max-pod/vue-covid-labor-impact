@@ -35,7 +35,7 @@ export default {
         const maxCount = 6;
         console.log("x", index%maxCount)
         let x = (index%maxCount != 0) ? index%maxCount-1 : 5
-        return [30+60*(x),Math.ceil(index/maxCount)*25]
+        return [30+70*(x),Math.ceil(index/maxCount)*25]
       },
       maxHeight(length) {
         return Math.ceil(length/6)*25+10+5
