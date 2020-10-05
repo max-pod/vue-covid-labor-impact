@@ -55,11 +55,12 @@ export default {
 
 <style scoped>
 #sections {
-  top: 100px;
+  margin-top: 100px;
 }
 
 .step {
   margin-bottom: 100px;
+  margin-left: 20px;
   height: 700px;
   font-family: "Domine";
   font-weight: 400;

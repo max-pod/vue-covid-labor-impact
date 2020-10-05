@@ -39,7 +39,7 @@
 
       </g>
     </svg>
-    <center>Days to Full Recovery</center>
+    <center>Number of Days to Full Recovery</center>
     <VueLegend
       :values="sumstat"
       focused=""
@@ -66,7 +66,7 @@ import { selectAll, select } from "d3-selection";
 import { axisLeft, axisBottom } from "d3-axis";
 import { transition } from "d3-transition";
 import { nest, values } from "d3-collection";
-import { schemeCategory10, schemePaired, schemeSet1 } from "d3-scale-chromatic";
+import { schemeSet1, interpolateTurbo } from "d3-scale-chromatic";
 
 import { interpolatePath } from "d3-interpolate-path";
 import * as tweenObj from "@tweenjs/tween.js";
@@ -285,10 +285,7 @@ export default {
         });
     },
     color() {
-      let res = this.data.map((d) => {
-        return d.key;
-      });
-      return d3.scaleOrdinal(schemeSet1).domain(res);
+      return (i) => { return interpolateTurbo((i+1)/(this.sumstat.length+1))};
     },
     svgHeight() {
       return this.svgWidth * .6; // golden ratio

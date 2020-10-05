@@ -1,7 +1,7 @@
 <template>
   <svg
       :width="svgWidth"
-      :height="svgHeight"
+      :height="maxHeight(values.length)"
     >
       <g
         v-for="(value, index) in values"
@@ -29,8 +29,13 @@ export default {
     methods: {
       position(index, length) {
         const maxCount = 6;
-        return [30+60*(index%maxCount),Math.ceil(index/maxCount)*30]
+        console.log("x", index%maxCount)
+        let x = (index%maxCount != 0) ? index%maxCount-1 : 5
+        return [30+60*(x),Math.ceil(index/maxCount)*25]
       },
+      maxHeight(length) {
+        return Math.ceil(length/6)*25+10+5
+      }
     },
     mounted() {
       console.log("Vue Legend Mounted");
