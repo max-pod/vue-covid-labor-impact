@@ -82,8 +82,6 @@ import { interpolatePath } from "d3-interpolate-path";
 import * as tweenObj from "@tweenjs/tween.js";
 const TWEEN = tweenObj.default;
 
-import gsap from "gsap";
-
 import VueLine from "../chart-components/VueLine";
 
 export default {
