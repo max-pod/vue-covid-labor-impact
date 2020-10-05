@@ -50,18 +50,17 @@
 </template>
 
 <script>
-import * as d3 from "d3"; // TODO: OPTIMIZE THE FUCK OUT OF THIS
+//import * as d3 from "d3"; // TODO: OPTIMIZE THE FUCK OUT OF THIS
 import { scaleLinear, scaleTime } from "d3-scale";
 import { timeFormat } from "d3-time-format";
 import { format } from "d3-format";
-import { max, maxIndex, min, bisector } from "d3-array";
+import { max, maxIndex, min, bisector, extent } from "d3-array";
 import { selectAll, select } from "d3-selection";
 import { axisLeft, axisBottom } from "d3-axis";
-import { transition } from "d3-transition";
 import { nest, values } from "d3-collection";
 import { schemeSet1, interpolateTurbo } from "d3-scale-chromatic";
+import { line } from "d3-shape";
 
-import { interpolatePath } from "d3-interpolate-path";
 import * as tweenObj from "@tweenjs/tween.js";
 const TWEEN = tweenObj.default;
 
@@ -117,7 +116,6 @@ export default {
       top: 10,
     },
     redrawToggle: true,
-    mouseOver: false,
     bisect: {
       x: "",
       xVal: "",
@@ -128,7 +126,6 @@ export default {
     animatedData: [],
     paths: [],
     t: 0,
-    delayedT: 0,
     focused: -1,
   }),
   methods: {
@@ -169,8 +166,7 @@ export default {
         .attr("stroke-opacity", "0.1");
     },
     renderGrid() {
-      const yGrid = d3
-        .axisLeft(this.yScale)
+      const yGrid = axisLeft(this.yScale)
         .ticks(5)
         .tickSize(-this.svgWidth)
         .tickFormat("");
@@ -220,16 +216,6 @@ export default {
           this.t = time.timeVal;
         })
         .start(); // Start the tween immediately.
-
-      const tween2 = new TWEEN.Tween(time) // Create a new tween that modifies 'coords'.
-        .to({timeVal: end}, 10000) // Move to (300, 200) in 1 second.
-        .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
-        .onUpdate(() => {
-          this.delayedT = time.timeVal;
-        })
-        .delay(6000)
-        .start();
-        
     },
   },
   components: {
@@ -259,7 +245,7 @@ export default {
       return scaleLinear()
         .rangeRound([0, this.svgWidth])
         .domain(
-          d3.extent(this.data, (d) => {
+          extent(this.data, (d) => {
             return d[this.xKey];
           })
         );
@@ -271,8 +257,7 @@ export default {
         .nice();
     },
     line() {
-      return d3
-        .line()
+      return line()
         .x((d) => {
           return this.xScale(d[this.xKey]);
         })
