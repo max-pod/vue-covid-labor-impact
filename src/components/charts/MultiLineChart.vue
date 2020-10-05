@@ -14,7 +14,7 @@
 
     <template #default>
       <svg
-        @mousemove="mousemove"
+        @mousemove="offsetX = $event.offsetX"
         @mouseover="mouseover"
         @mouseleave="mouseleave"
         v-if="redrawToggle === true"
@@ -32,7 +32,7 @@
             <g class="gf-y-grid grid" />
           </g>
 
-          <!-- Line -->
+          <!-- Path -->
           <path
             v-for="path in paths"
             :key="path.key"
@@ -45,7 +45,20 @@
             :d="path.d"
           />
 
-          <!-- Tooltip -->
+          <VueToolTip
+            v-if="mouseOver"
+            :sumstat="sumstat"
+            :xKey="xKey"
+            :yKey="yKey"
+            :xScale="xScale"
+            :yScale="yScale"
+            :svgWidth="svgWidth"
+            :svgHeight="svgHeight"
+            :margin="margin"
+            :offsetX="offsetX"
+          />
+
+          <!-- Tooltip
           <g v-if="mouseOver" class="focus">
             <line
               class="x-tool"
@@ -75,7 +88,7 @@
               r="4"
               :transform="`translate(${bisect.x}, ${bisect.y[index]})`"
             />
-          </g>
+          </g>-->
         </g>
       </svg>
     </template>
@@ -96,6 +109,7 @@ import { nest, values } from "d3-collection";
 import { schemeSet1 } from "d3-scale-chromatic";
 
 import ChartContainer from "../chart-components/ChartContainer"
+import VueToolTip from "../chart-components/VueToolTip"
 
 export default {
   name: "MultiLineChart",
@@ -155,6 +169,7 @@ export default {
       yMin: null,
     },
     paths: [],
+    offsetX: null,
   }),
   methods: {
     renderAxes() {
@@ -355,6 +370,7 @@ export default {
     //VueLine,
     //VueLegend,
     ChartContainer,
+    VueToolTip,
   },
 };
 </script>
