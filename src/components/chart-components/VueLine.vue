@@ -63,7 +63,6 @@ export default {
         },
         mouseover() {
           this.mouseOver = true;
-          console.log("MOUSE OVER", this.id)
           this.$emit("focused", this.index)
         },
         mouseleave() {
@@ -76,9 +75,6 @@ export default {
             return this.getSmoothInterpolation(this.values, this.line, this.xKey, this.yKey)(this.t)
         }
     },
-    mounted() {
-        console.log(this.values)
-    }
 }
 </script>
 
