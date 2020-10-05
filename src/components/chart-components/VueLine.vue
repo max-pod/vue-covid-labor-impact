@@ -76,6 +76,9 @@ export default {
             return this.getSmoothInterpolation(this.values, this.line, this.xKey, this.yKey)(this.t)
         }
     },
+    mounted() {
+        console.log(this.values)
+    }
 }
 </script>
 

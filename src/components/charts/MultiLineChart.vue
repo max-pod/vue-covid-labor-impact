@@ -86,6 +86,7 @@ import { axisLeft, axisBottom } from "d3-axis";
 import { transition } from "d3-transition";
 import { nest, values } from "d3-collection";
 import { schemeSet1, interpolateTurbo } from "d3-scale-chromatic";
+import { line } from "d3-shape";
 
 import ChartContainer from "../chart-components/ChartContainer"
 import VueToolTip from "../chart-components/VueToolTip"
@@ -317,8 +318,7 @@ export default {
         .nice();
     },
     line() {
-      return d3
-        .line()
+      return line()
         .x((d) => { return this.xScale(d[this.xKey]); })
         .y((d) => { return this.yScale(d[this.yKey]); });
     },

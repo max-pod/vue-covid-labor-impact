@@ -2,7 +2,7 @@
   <div id="container" class="svg-container" align="left">
     <h1>
       {{ title }}
-      <small v-if="info.last_updated">(updated {{ xFormat(info.last_updated) }})</small>
+      <small v-if="info.last_updated">({{ xFormat(info.last_updated) }})</small>
     </h1>
     <br/>
     
@@ -46,6 +46,9 @@ export default {
       xAxisNote: String,
       info: Object,
   },
+  methods: {
+    xFormat: timeFormat("%b %d"),
+  }
 }
 </script>
 
