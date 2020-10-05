@@ -32,17 +32,18 @@
             <g class="gf-y-grid grid" />
           </g>
 
-          <!-- Path -->
-          <path
-            v-for="path in paths"
-            :key="path.key"
-            fill="none"
-            :stroke="path.color"
-            :stroke-dashoffset="path.pathLength"
-            :stroke-dasharray="path.pathLength"
-            stroke-width="2"
-            class="value-line"
-            :d="path.d"
+          <VueLine
+            @focused="focused = $event"
+            v-for="(sum, index) in sumstat"
+            :key="sum.key"
+            :xKey="xKey"
+            :yKey="yKey"
+            :values="sum.values"
+            :line="line"
+            :color="color(index)"
+            :id="sum.key"
+            :index="index"
+            :t="t"
           />
 
           <VueToolTip
@@ -58,38 +59,6 @@
             :margin="margin"
             :offsetX="offsetX"
           />
-
-          <!-- Tooltip
-          <g v-if="mouseOver" class="focus">
-            <line
-              class="x-tool"
-              stroke="black"
-              stroke-dasharray="3px"
-              opacity=".5"
-              y1="0"
-              :y2="svgHeight - bisect.yMin"
-              :transform="`translate(${bisect.x}, ${bisect.yMin})`"
-            />
-
-            <line
-              class="y-tool"
-              stroke="black"
-              stroke-dasharray="3px"
-              opacity=".5"
-              :x2="svgWidth * 2"
-              :transform="`translate(${-svgWidth}, ${bisect.yMin})`"
-            />
-
-            <circle
-              v-for="(element,index) in sumstat"
-              :key="element.key"
-              class="circle-tool"
-              fill="white"
-              stroke="black"
-              r="4"
-              :transform="`translate(${bisect.x}, ${bisect.y[index]})`"
-            />
-          </g>-->
         </g>
       </svg>
     </template>
@@ -121,6 +90,10 @@ import { schemeSet1, interpolateTurbo } from "d3-scale-chromatic";
 import ChartContainer from "../chart-components/ChartContainer"
 import VueToolTip from "../chart-components/VueToolTip"
 import VueLegend from "../chart-components/VueLegend"
+import VueLine from "../chart-components/VueLine"
+
+import * as tweenObj from "@tweenjs/tween.js";
+const TWEEN = tweenObj.default;
 
 export default {
   name: "MultiLineChart",
@@ -183,6 +156,7 @@ export default {
     offsetX: null,
     yVal: [0],
     focused: -1,
+    t: 0,
   }),
   methods: {
     renderAxes() {
@@ -243,40 +217,11 @@ export default {
       select(".gf-y-grid path").attr("stroke-opacity", "0");
       select(".gf-x-grid path").attr("stroke-opacity", "0");
     },
-    renderLine(data) {
-      //console.log(this.sumstat);
-      
-      this.paths = [];
-      this.sumstat.forEach((element, index) => {
-        let d = this.line(element.values)
-
-        this.paths.push({
-          key: element.key,
-          d: d,
-          color: this.color(index),
-          pathLength: this.svgWidth*2,
-        });
-      })
-
-      setTimeout(() => {
-        let path = selectAll(".value-line")
-        //console.log("path length", path.node().getTotalLength(), this.svgWidth)
-
-        const transitionPath = d3
-          .transition()
-          .ease(d3.easeSin)
-          .duration(1500);
-
-        path
-          .transition(transitionPath)
-          .attr("stroke-dashoffset", 0);
-      }, 300);
-      
-    },
     AnimateLoad() {
       this.renderAxes();
       this.renderGrid();
-      this.renderLine(this.data);
+
+      this.tween(0, 1);
     },
     mousemove({ offsetX }) {
       if (this.data.length < 0) {
@@ -320,6 +265,24 @@ export default {
           this.AnimateLoad();
         }, 300);
       });
+    },
+    tween(start, end) {
+      let frameHandler;
+
+      const animate = function(currentTime) {
+        TWEEN.update(currentTime);
+        frameHandler = requestAnimationFrame(animate);
+      };
+      frameHandler = requestAnimationFrame(animate);
+
+      const time = {timeVal: start}; // Start at (0, 0)
+      const tween = new TWEEN.Tween(time) // Create a new tween that modifies 'coords'.
+        .to({timeVal: end}, 3000) // Move to (300, 200) in 1 second.
+        .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
+        .onUpdate(() => {
+          this.t = time.timeVal;
+        })
+        .start(); // Start the tween immediately.
     },
   },
   computed: {
@@ -379,7 +342,7 @@ export default {
     },
   },
   components: {
-    //VueLine,
+    VueLine,
     VueLegend,
     ChartContainer,
     VueToolTip,
