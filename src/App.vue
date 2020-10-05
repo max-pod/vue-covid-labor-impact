@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="columns is-mobile">
     <Sections class="column is-3-phone is-5-tablet is-6-desktop is-6-widescreen is-5-fullhd" @stepUpdate="handleStepUpdate"/>
-    <Vis class="column is-9-phone is-7-tablet is-6-desktop is-5-widescreen is-6-fullhd"
+    <Vis class="column is-9-phone is-7-tablet is-6-desktop is-6-widescreen is-6-fullhd"
         :stepIndex="stepIndex"
         :stepSource="stepSource"
     />

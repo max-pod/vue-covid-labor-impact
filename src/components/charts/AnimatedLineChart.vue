@@ -40,23 +40,13 @@
       </g>
     </svg>
     <center>Days to Full Recovery</center>
-    <!--<svg
-      v-if="redrawToggle === true"
-      :width="svgWidth + margin.left + margin.right"
-      :height="svgHeight / 8"
-    >
-      <g
-        v-for="(path, index) in animatedPath"
-        :key="path.key"
-        :transform="`translate(${6 + 55 * index}, ${20})`"
-        class="cell"
-      >
-        <circle :fill="path.color" r="6" />
-        <text :fill="path.color" :transform="`translate(10,${svgHeight / 32})`">
-          {{ path.key }}
-        </text>
-      </g>
-    </svg>-->
+    <VueLegend
+      :values="sumstat"
+      focused=""
+      :color="color"
+      :svgHeight="svgHeight/2"
+      :svgWidth="svgWidth"
+    />
     <p>
       <i>{{ source }}</i>
     </p>
@@ -83,6 +73,7 @@ import * as tweenObj from "@tweenjs/tween.js";
 const TWEEN = tweenObj.default;
 
 import VueLine from "../chart-components/VueLine";
+import VueLegend from "../chart-components/VueLegend";
 
 export default {
   name: "AnimatedLineChart",
@@ -126,7 +117,7 @@ export default {
   data: () => ({
     svgWidth: 0,
     margin: {
-      left: 100,
+      left: 40,
       right: 10,
       bottom: 45,
       top: 10,
@@ -248,6 +239,7 @@ export default {
   },
   components: {
     VueLine,
+    VueLegend,
   },
   computed: {
     sumstat() {
