@@ -28,6 +28,7 @@ export default {
         },
         values: Array,
         id: String,
+        index: Number,
         line: Function,
         color: {
             type: String,
@@ -67,10 +68,11 @@ export default {
         mouseover() {
           this.mouseOver = true;
           console.log("MOUSE OVER", this.id)
-          this.$emit("mouseOver", this.id)
+          this.$emit("focused", this.index)
         },
         mouseleave() {
             this.mouseOver = false;
+            this.$emit("focused", -1)
         },
     },
     computed: {

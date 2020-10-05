@@ -26,6 +26,7 @@
         </g>
 
         <VueLine
+          @focused="focused = $event"
           v-for="(sum, index) in sumstat"
           :key="sum.key"
           :xKey="xKey"
@@ -34,6 +35,7 @@
           :line="line"
           :color="color(index)"
           :id="sum.key"
+          :index="index"
           :t="t"
         />
 
@@ -42,7 +44,7 @@
     <center>Number of Days to Full Recovery</center>
     <VueLegend
       :values="sumstat"
-      focused=""
+      :focused="focused"
       :color="color"
       :svgHeight="svgHeight/2"
       :svgWidth="svgWidth"
@@ -135,6 +137,7 @@ export default {
     paths: [],
     t: 0,
     delayedT: 0,
+    focused: -1,
   }),
   methods: {
     renderAxes() {

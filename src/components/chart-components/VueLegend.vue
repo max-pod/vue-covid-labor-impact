@@ -7,6 +7,7 @@
         v-for="(value, index) in values"
         :key="value.key"
         :transform="`translate(${position(index+1, values.length)})`"
+        :class="{hover: (index == focused)}"
       >
         <circle :fill="color(index)" r="6" />
         <text :fill="color(index)" :transform="`translate(10,10)`">
@@ -21,7 +22,10 @@ export default {
     name: "VueLegend",
     props: {
       values: Array,
-      focused: Boolean,
+      focused: {
+        type: Number,
+        default: 100,
+      },
       color: Function,
       svgHeight: Number,
       svgWidth: Number,
@@ -45,4 +49,7 @@ export default {
 </script>
 
 <style>
+.hover {
+  font-weight: bold;
+}
 </style>
