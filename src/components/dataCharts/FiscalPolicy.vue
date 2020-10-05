@@ -192,7 +192,8 @@ export default {
           }
         });
 
-        //console.log(splicedValues);
+        //splicedValues.splice(0,12); //TODO: LOOK HERE YOU DUMBASS
+        //console.log(splicedValues)
 
         let recessionIndex = 1;
         splicedValues.forEach((element, index) => {
@@ -205,7 +206,7 @@ export default {
 
           let slice = values.slice(element.popStartIndex, element.popEndIndex);
 
-          console.log("key: ", element.key, slice);
+          //console.log("key: ", element.key, slice);
           slice.forEach((sliceValues) => {
             dataSet.push({
               value: (sliceValues.value-element.priorMax)/element.priorMax,
@@ -215,7 +216,7 @@ export default {
           });
         });
 
-        console.log(dataSet)
+        //console.log(dataSet)
         this.ChartTitle = "Job losses during post-war recessions";
         this.ChartData = dataSet;
       })

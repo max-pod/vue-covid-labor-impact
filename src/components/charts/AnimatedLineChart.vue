@@ -6,6 +6,9 @@
         (updated {{ xFormat(info.last_updated) }})</small
       >
     </h1>
+    <p text-align="center">
+    <center>% job losses relative to prior employment peak</center>
+    </p>
     <svg
       v-if="redrawToggle === true"
       :width="svgWidth + margin.left + margin.right"
@@ -22,19 +25,20 @@
           <g class="gf-y-grid grid" />
         </g>
 
-        <!-- Line -->
-        <path
-          v-for="path in animatedPath"
-          :key="path.key"
-          fill="none"
-          :stroke="path.color"
-          stroke-width="2"
-          class="value-line"
-          :d="path.d"
+        <VueLine
+          v-for="(sum, index) in sumstat"
+          :key="sum.key"
+          :values="sum.values"
+          :line="line"
+          :color="color(index)"
+          :id="sum.key"
+          :t="t"
         />
+
       </g>
     </svg>
-    <svg
+    <center>Days to Full Recovery</center>
+    <!--<svg
       v-if="redrawToggle === true"
       :width="svgWidth + margin.left + margin.right"
       :height="svgHeight / 8"
@@ -50,7 +54,7 @@
           {{ path.key }}
         </text>
       </g>
-    </svg>
+    </svg>-->
     <p>
       <i>{{ source }}</i>
     </p>
@@ -77,6 +81,8 @@ import * as tweenObj from "@tweenjs/tween.js";
 const TWEEN = tweenObj.default;
 
 import gsap from "gsap";
+
+import VueLine from "../chart-components/VueLine";
 
 export default {
   name: "AnimatedLineChart",
@@ -122,7 +128,7 @@ export default {
     margin: {
       left: 100,
       right: 10,
-      bottom: 10,
+      bottom: 45,
       top: 10,
     },
     redrawToggle: true,
@@ -261,6 +267,8 @@ export default {
       this.renderGrid();
       //this.renderLine(this.data);
 
+      console.log("A sumstat", this.sumstat)
+
       //setTimeout(() => {
       this.tween(0, 1);
       //}, 1000);
@@ -287,10 +295,10 @@ export default {
       };
       frameHandler = requestAnimationFrame(animate);
 
-      console.log("end val", end)
+      //console.log("end val", end)
       const time = {timeVal: start}; // Start at (0, 0)
       const tween = new TWEEN.Tween(time) // Create a new tween that modifies 'coords'.
-        .to({timeVal: end}, 6000) // Move to (300, 200) in 1 second.
+        .to({timeVal: end}, 5000) // Move to (300, 200) in 1 second.
         .easing(TWEEN.Easing.Quadratic.Out) // Use an easing function to make the animation smooth.
         .onUpdate(() => {
           // Called after tween.js updates 'coords'.
@@ -313,6 +321,9 @@ export default {
         .start();
         
     },
+  },
+  components: {
+    VueLine,
   },
   computed: {
     recoveryBisector() {
@@ -361,33 +372,6 @@ export default {
         .y((d) => {
           return this.yScale(d[this.yKey]);
         });
-    },
-    animatedPath() {
-      let animatedPaths = [];
-      this.sumstat.forEach((element, index) => {
-        let d = this.line(element.values);
-
-        if (this.sumstat.length - 1 == index) {
-          console.log("animating final graph");
-          animatedPaths.push({
-            key: element.key,
-            d: this.getSmoothInterpolation(element.values, this.line)(this.delayedT),
-            color: this.color(element.key),
-            pathLength: this.svgWidth * 1.2,
-          });
-        } else {
-          animatedPaths.push({
-            key: element.key,
-            d: this.getSmoothInterpolation(
-              element.values,
-              this.line
-            )(this.t),
-            color: this.color(element.key),
-            pathLength: this.svgWidth * 1.2,
-          });
-        }
-      });
-      return animatedPaths;
     },
     color() {
       let res = this.data.map((d) => {
