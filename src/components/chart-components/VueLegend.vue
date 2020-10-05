@@ -42,8 +42,8 @@ export default {
       }
     },
     mounted() {
-      console.log("Vue Legend Mounted");
-      console.log("Vue Legend Val", this.values)
+      //console.log("Vue Legend Mounted");
+      //console.log("Vue Legend Val", this.values)
     }
 }
 </script>

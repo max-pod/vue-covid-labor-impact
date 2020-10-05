@@ -1,61 +1,52 @@
 <template>
-  <div id="container" class="svg-container" align="left">
-    <h1>
-      {{ title }}
-      <small v-if="info.last_updated">
-        (updated {{ xFormat(info.last_updated) }})</small
-      >
-    </h1>
-    <p text-align="center">
-    <center>% job losses relative to prior employment peak</center>
-    </p>
-    <svg
-      v-if="redrawToggle === true"
-      :width="svgWidth + margin.left + margin.right"
-      :height="svgHeight + margin.top + margin.bottom"
-    >
-      <g :transform="`translate(${margin.left}, ${margin.top})`">
-        <!-- Axis -->
-        <g class="x-axis" :transform="`translate(0, ${svgHeight})`" />
-        <g class="y-axis" />
+  <ChartContainer
+    :title="title"
+    :info="info"
+  >
+    <template v-slot:default>
+      <svg
+        v-if="redrawToggle === true"
+        :width="svgWidth + margin.left + margin.right"
+        :height="svgHeight + margin.top + margin.bottom">
+        <g :transform="`translate(${margin.left}, ${margin.top})`">
+          <!-- Axis -->
+          <g class="x-axis" :transform="`translate(0, ${svgHeight})`" />
+          <g class="y-axis" />
 
-        <!-- Grids -->
-        <g>
-          <g class="gf-x-grid grid" :transform="`translate(0, ${svgHeight})`" />
-          <g class="gf-y-grid grid" />
+          <!-- Grids -->
+          <g>
+            <g class="gf-x-grid grid" :transform="`translate(0, ${svgHeight})`" />
+            <g class="gf-y-grid grid" />
+          </g>
+
+          <VueLine
+            @focused="focused = $event"
+            v-for="(sum, index) in sumstat"
+            :key="sum.key"
+            :xKey="xKey"
+            :yKey="yKey"
+            :values="sum.values"
+            :line="line"
+            :color="color(index)"
+            :id="sum.key"
+            :index="index"
+            :t="t"
+          />
         </g>
+      </svg>
+    </template>
 
-        <VueLine
-          @focused="focused = $event"
-          v-for="(sum, index) in sumstat"
-          :key="sum.key"
-          :xKey="xKey"
-          :yKey="yKey"
-          :values="sum.values"
-          :line="line"
-          :color="color(index)"
-          :id="sum.key"
-          :index="index"
-          :t="t"
-        />
+    <template v-slot:legend>
+      <VueLegend
+        :values="sumstat"
+        :focused="focused"
+        :color="color"
+        :svgHeight="svgHeight/2"
+        :svgWidth="svgWidth"
+      />
+    </template>
 
-      </g>
-    </svg>
-    <center>Number of Days to Full Recovery</center>
-    <VueLegend
-      :values="sumstat"
-      :focused="focused"
-      :color="color"
-      :svgHeight="svgHeight/2"
-      :svgWidth="svgWidth"
-    />
-    <p>
-      <i>{{ source }}</i>
-    </p>
-    <p v-if="info.notes">
-      <i>{{ info.notes }}</i>
-    </p>
-  </div>
+  </ChartContainer>
 </template>
 
 <script>
@@ -76,6 +67,7 @@ const TWEEN = tweenObj.default;
 
 import VueLine from "../chart-components/VueLine";
 import VueLegend from "../chart-components/VueLegend";
+import ChartContainer from "../chart-components/ChartContainer"
 
 export default {
   name: "AnimatedLineChart",
@@ -243,6 +235,7 @@ export default {
   components: {
     VueLine,
     VueLegend,
+    ChartContainer,
   },
   computed: {
     sumstat() {

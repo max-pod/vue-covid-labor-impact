@@ -131,9 +131,9 @@ export default {
   data: () => ({
     svgWidth: 0,
     margin: {
-      left: 100,
+      left: 40,
       right: 10,
-      bottom: 10,
+      bottom: 45,
       top: 10,
     },
     redrawToggle: true,
@@ -343,13 +343,6 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  font-family: "Garamond";
-  font-weight: 800;
-  font-size: 35px;
-  text-align: center;
-}
-
 .bar-positive {
   fill: steelblue;
   transition: r 0.2s ease-in-out;
@@ -357,15 +350,6 @@ h1 {
 
 .bar-positive:hover {
   fill: brown;
-}
-
-.svg-container {
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  padding-bottom: 1%;
-  vertical-align: top;
-  overflow: hidden;
 }
 
 .overlay {

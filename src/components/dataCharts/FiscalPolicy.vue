@@ -1,19 +1,18 @@
 <template>
-  <div>
     <Chart
-      :title="ChartTitle"
       xKey="time"
       yKey="value"
+      :title="ChartTitle"
+      :info="ChartInfo"
       :source="source"
       :data="ChartData"
-      :info="ChartInfo"
       :xFormat="xFormat"
     />
-  </div>
 </template>
 
 <script>
 import Chart from "../charts/AnimatedLineChart";
+
 import { json } from "d3-fetch";
 import { timeParse } from "d3-time-format";
 import { max, maxIndex, min, minIndex, bisector } from "d3-array";
@@ -30,7 +29,6 @@ const parseRecessions = timeParse("%Y - %m - %d");
 
 const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-// a and b are javascript Date objects
 function dateDiffInDays(a, b) {
   // Discard the time and time-zone information.
   const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
@@ -39,7 +37,6 @@ function dateDiffInDays(a, b) {
   return Math.floor((utc2 - utc1) / _MS_PER_DAY);
 }
 
-//const end = "2020-05-01"
 function dataSeries(set) {
   return `https://api.stlouisfed.org/fred/series/observations?series_id=${set}&api_key=${apiKey}&observation_start=${start}&units=${fUnits}&file_type=json`;
 }
