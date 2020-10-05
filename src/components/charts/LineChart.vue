@@ -80,16 +80,17 @@
 </template>
 
 <script>
-import * as d3 from "d3"; // TODO: OPTIMIZE THE FUCK OUT OF THIS
+//import * as d3 from "d3"; // TODO: OPTIMIZE THE FUCK OUT OF THIS
 import { scaleLinear, scaleTime, scaleOrdinal } from "d3-scale";
 import { timeFormat } from "d3-time-format";
 import { format } from "d3-format";
-import { max, min, bisector } from "d3-array";
+import { max, min, bisector, extent } from "d3-array";
 import { selectAll, select } from "d3-selection";
 import { axisLeft, axisBottom } from "d3-axis";
 import { transition } from "d3-transition";
 import { line } from "d3-shape";
 import { schemeSet1 } from "d3-scale-chromatic";
+import { timeMonth } from "d3-time";
 
 import ChartContainer from "../chart-components/ChartContainer"
 import VueLine from "../chart-components/VueLine"
@@ -116,15 +117,15 @@ export default {
     },
     yFormat: {
       type: Function,
-      default: d3.format(",.0f"),
+      default: format(",.0f"),
     },
     xSpecial: Array,
     ySpecial: Array,
     xTicks: {
       type: Object,
       default: () => ({
-        interval: d3.timeMonth.every(2),
-        format: d3.timeFormat("%b %e"),
+        interval: timeMonth.every(2),
+        format: timeFormat("%b %e"),
       }),
     },
     data: Array,
@@ -199,8 +200,7 @@ export default {
         .attr("stroke-opacity", "0.1");
     },
     renderGrid() {
-      const yGrid = d3
-        .axisLeft(this.yScale)
+      const yGrid = axisLeft(this.yScale)
         .ticks(5)
         .tickSize(-this.svgWidth)
         .tickFormat("");
@@ -294,7 +294,7 @@ export default {
       return scaleTime()
         .rangeRound([0, this.svgWidth])
         .domain(
-          d3.extent(this.data, (d) => {
+          extent(this.data, (d) => {
             return d[this.xKey];
           })
         );

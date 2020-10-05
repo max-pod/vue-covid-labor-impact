@@ -76,17 +76,18 @@
 </template>
 
 <script>
-import * as d3 from "d3"; // TODO: OPTIMIZE THE FUCK OUT OF THIS
+//import * as d3 from "d3"; // TODO: OPTIMIZE THE FUCK OUT OF THIS
 import { scaleLinear, scaleTime, scaleOrdinal } from "d3-scale";
 import { timeFormat } from "d3-time-format";
 import { format } from "d3-format";
-import { max, min, bisector } from "d3-array";
+import { max, min, bisector, extent } from "d3-array";
 import { selectAll, select } from "d3-selection";
 import { axisLeft, axisBottom } from "d3-axis";
 import { transition } from "d3-transition";
 import { nest, values } from "d3-collection";
 import { schemeSet1, interpolateTurbo } from "d3-scale-chromatic";
 import { line } from "d3-shape";
+import { timeMonth } from "d3-time";
 
 import ChartContainer from "../chart-components/ChartContainer"
 import VueToolTip from "../chart-components/VueToolTip"
@@ -115,15 +116,15 @@ export default {
     },
     yFormat: {
       type: Function,
-      default: d3.format(",.0f"),
+      default: format(",.0f"),
     },
     xSpecial: Array,
     ySpecial: Array,
     xTicks: {
       type: Object,
       default: () => ({
-        interval: d3.timeMonth.every(4),
-        format: d3.timeFormat("%b - %y"),
+        interval: timeMonth.every(4),
+        format: timeFormat("%b - %y"),
       }),
     },
     data: Array,
@@ -203,8 +204,7 @@ export default {
         .attr("stroke-opacity", "0.1");
     },
     renderGrid() {
-      const yGrid = d3
-        .axisLeft(this.yScale)
+      const yGrid = axisLeft(this.yScale)
         .ticks(5)
         .tickSize(-this.svgWidth)
         .tickFormat("");
@@ -306,7 +306,7 @@ export default {
       return scaleTime()
         .rangeRound([0, this.svgWidth])
         .domain(
-          d3.extent(this.data, (d) => {
+          extent(this.data, (d) => {
             return d[this.xKey];
           })
         );
