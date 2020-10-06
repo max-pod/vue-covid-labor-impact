@@ -2,6 +2,9 @@
   <ChartContainer
     :title="title"
     :info="info"
+    :chartNote="chartNote"
+    :xAxisNote="xAxisNote"
+    :source="source"
   >
     <template v-slot:default>
       <svg
@@ -73,6 +76,8 @@ export default {
   props: {
     title: String,
     source: String,
+    chartNote: String,
+    xAxisNote: String,
     xKey: {
       type: String,
       default: "date",

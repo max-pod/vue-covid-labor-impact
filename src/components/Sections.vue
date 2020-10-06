@@ -5,16 +5,18 @@
     :offset="0.8"
     @step-enter="handler"
   >
-    <div class="step" data-source="UnemploymentCombined">
+    <div class="step" data-source="UniqueImpact">
       <h1>What was Covid-19's Impact on Labor?</h1>
       <p>By <a href="https://www.linkedin.com/in/maxim-podolski-95bbb0158/">Maxim Podolski</a></p>
-      <p>Covid-19 Posed a Disproportionate Impact</p>
+      <br/>
+      <h2>Covid-19's Uniqueness</h2>
+      <p>Covid 19 poses a remarkable shock to our economy, unmatched with prior recessions. </p>
     </div>
     <div class="step" data-source="MonetaryPolicy">
       <h1>Despite the ....</h1>
       <p>Show Basic Montery</p>
     </div>
-    <div class="step" data-source="FiscalPolicy">
+    <div class="step" data-source="UnemploymentCombined">
       <h1>Indeph look into Fiscal</h1>
       <p>Show Fiscal</p>
     </div>

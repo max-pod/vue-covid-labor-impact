@@ -5,6 +5,8 @@
       :title="ChartTitle"
       :info="ChartInfo"
       :source="source"
+      :chartNote="chartNote"
+      :xAxisNote="xAxisNote"
       :data="ChartData"
       :xFormat="xFormat"
     />
@@ -46,10 +48,12 @@ function dataInfo(set) {
 }
 
 export default {
-  name: "FiscalPolicy",
+  name: "UniqueImpact",
   data: () => ({
     source: "See FRED (Federal Reserve St. Louis, 2020)",
-    ChartTitle: "",
+    chartNote: "% Job Losses Compared to Prior Employment Peak",
+    xAxisNote: "Days Until Recovery",
+    ChartTitle: "Job losses during post-war recessions",
     ChartData: [],
     ChartInfo: {},
     xFormat() {
@@ -189,9 +193,6 @@ export default {
           }
         });
 
-        //splicedValues.splice(0,12); //TODO: LOOK HERE YOU DUMBASS
-        //console.log(splicedValues)
-
         let recessionIndex = 1;
         splicedValues.forEach((element, index) => {
           if (index == 0) {
@@ -203,7 +204,6 @@ export default {
 
           let slice = values.slice(element.popStartIndex, element.popEndIndex);
 
-          //console.log("key: ", element.key, slice);
           slice.forEach((sliceValues) => {
             dataSet.push({
               value: (sliceValues.value-element.priorMax)/element.priorMax,
@@ -213,8 +213,10 @@ export default {
           });
         });
 
-        //console.log(dataSet)
-        this.ChartTitle = "Job losses during post-war recessions";
+        let { notes, last_updated, id, units, title } = responses[1].seriess[0];
+        last_updated = parseTime(last_updated.split(" ")[0]);
+
+        this.ChartInfo = { notes, last_updated, id, units };
         this.ChartData = dataSet;
       })
       .catch((error) => {

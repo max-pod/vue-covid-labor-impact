@@ -38,6 +38,8 @@ export default {
   name: "UnemploymentCombined",
   data: () => ({
     source: "See FRED (Federal Reserve St. Louis, 2020)",
+    chartNote: "",
+    xAxisNotes: "",
     ChartTitle: "",
     ChartData: [],
     ChartInfo: {},
