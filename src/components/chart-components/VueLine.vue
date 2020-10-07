@@ -85,6 +85,9 @@ export default {
       )(this.t);
     },
   },
+  mounted() {
+    console.log(this.values)
+  }
 };
 </script>
 

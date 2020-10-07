@@ -72,7 +72,6 @@ export default {
           });
         });
 
-        this.ChartTitle = title;
         this.ChartInfo = { notes, last_updated, id, units };
         this.ChartData = dataSet;
       })

@@ -1,7 +1,10 @@
 <template>
   <ChartContainer
     :info="info"
-    :title="title">
+    :title="title"
+    :source="source"
+    :chartNote="chartNote"
+    :xAxisNote="xAxisNote">
     <template #infoTop>
       <transition name="fade">
         <p v-if="mouseOver">
@@ -102,6 +105,8 @@ export default {
   props: {
     title: String,
     source: String,
+    chartNote: String,
+    xAxisNote: String,
     xKey: {
       type: String,
       default: "date",

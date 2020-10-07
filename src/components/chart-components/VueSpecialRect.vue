@@ -23,17 +23,14 @@ export default {
     },
     computed: {
         rectX() {
-            console.log(this.xScale(this.xValue.peak))
+            //console.log(this.xScale(this.xValue.peak))
             return this.xScale(this.xValue.peak)
         },
         rectWidth() {
             let trough = (this.xValue.trough == "" || !this.xValue.trough) ? new Date() : this.xValue.trough;
-            console.log("RECT WIDTH", this.xScale(trough))
+            //console.log("RECT WIDTH", this.xScale(trough))
             return this.xScale(trough) - this.rectX;
         }
     },
-    mounted() {
-        console.log("RECT VALUES", this.xValue)
-    }
 }
 </script>

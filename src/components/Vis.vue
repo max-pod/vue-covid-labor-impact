@@ -6,10 +6,9 @@
 
 <script>
 import UniqueImpact from "./dataCharts/UniqueImpact";
-
-import UnemploymentCombined from "./dataCharts/UnemploymentCombined.vue";
-import MonetaryPolicy from "./dataCharts/MonetaryPolicy.vue";
-import FiscalPolicy from "./dataCharts/FiscalPolicy.vue";
+import MonetaryPolicy from "./dataCharts/MonetaryPolicy";
+import FiscalPolicy from "./dataCharts/FiscalPolicy";
+import EmploymentByWage from "./dataCharts/EmploymentByWage";
 
 
 export default {
@@ -17,9 +16,11 @@ export default {
     props: ['stepIndex','stepSource'],
     components: {
         UniqueImpact,
-        UnemploymentCombined,
+
         MonetaryPolicy,
         FiscalPolicy,
+
+        EmploymentByWage,
     }
 }
 </script>

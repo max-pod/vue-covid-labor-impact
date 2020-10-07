@@ -17,7 +17,7 @@ export default {
   data: function() {
     return {
       stepIndex: "0",
-      stepSource: "UnemploymentCombined",
+      stepSource: "UniqueImpact",
     };
   },
   methods: {

@@ -11,7 +11,7 @@
       <br/>
       <i><small>This report was created with interactivity. Try hovering over some of the charts</small></i>
       <br/><br/>
-      <h2>Covid-19's Uniqueness</h2>
+      <h2>Covid-19 Uniquely Disrupted The Labor Market</h2>
       <p>The pandemic posed a remarkable shock to the US economy, unmatched in impact by any prior recession. The chart on the right queries FRED for PAYEMS, which represents total nonfarm payroll. According to the St. Louis Fed, this approximates 80% of the workers who contribute to GDP. </p>
       <br/>
       <p>The chart exposes three major insights.</p>
@@ -24,7 +24,7 @@
       <br/>
     </div>
     <div class="step" data-source="MonetaryPolicy">
-      <h2>Despite Powerful Monetary Policy</h2>
+      <h2>... Despite Powerful Monetary Policy</h2>
       <p>The extraordinary scale of this pandemic has prompted an extraordinary response from the Federal Reserve. The chart on the left queries FRED for Federal Debt Held by Federal Reserve Banks as Percent of Gross Domestic Product (HBFRGDQ188S).</p>
       <br/>
       <p>This chart illustrates the scale of action and quickness of action. The Fed has unleashed a host of lending facilities, large scale asset purchases, dollar swap lines both as a response of flight-to-quality and call for stability.</p>
@@ -33,12 +33,16 @@
       <br/>
     </div>
     <div class="step" data-source="FiscalPolicy">
-      <h2>Mixed Fiscal Stimulus</h2>
+      <h2>... And Despite Massive Fiscal Stimulus</h2>
       <p>Stimulus was powerful.</p>
     </div>
     <div class="step" data-source="">
-      <h1>Disparate Labor Impacts</h1>
-      <p>Half a dozen Chetty Citations</p>
+      <h1>Disparate Impacts</h1>
+      <p></p>
+    </div>
+    <div class="step" data-source="EmploymentByWage">
+      <h1>Disparate Wage Employment</h1>
+      <p></p>
     </div>
   </Scrollama>
   </div>

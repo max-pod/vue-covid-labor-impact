@@ -63,9 +63,6 @@ export default {
     xFormat() {
         return timeFormat("%b %d");
     },
-    yFormat() {
-        return format(",.0f");
-    },
    },
   computed: {
     iBisect() {
