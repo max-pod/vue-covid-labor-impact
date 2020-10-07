@@ -10,6 +10,7 @@
       xAxisNote="Quarterly Data"
       :data="ChartData"
       :xTicks="xTicks"
+      :xSpecial="recessionsObj"
     />
   </div>
 </template>
@@ -21,6 +22,9 @@ import { timeParse } from "d3-time-format";
 import { fredUnits, template } from "../functions/d3-max";
 import { timeFormat } from "d3-time-format";
 import { timeMonth } from "d3-time";
+
+import recessionsObj from "../functions/recessionDates";
+recessionsObj.splice(0,recessionsObj.length-2);
 
 const apiKey = "f03c8ce7f9abbc474ccb57117ac26c86"; //GOOD THING I AM NOT PUBLICALLY HOSTING THIS ON GITHUB, OTHERWISE THIS WOULD BE PRETTY DUMB
 const set1 = "FGEXPND";
@@ -42,13 +46,13 @@ function dataInfo(set) {
 export default {
   name: "FiscalPolicy",
   data: () => ({
-    source: "See FRED (Federal Reserve St. Louis, 2020)",
     ChartData: [],
     ChartInfo: {},
     xTicks: {
       interval: timeMonth.every(12),
       format: timeFormat("%b - %y"),
     },
+    recessionsObj: recessionsObj,
   }),
   mounted() {
     Promise.all([json(dataInfo(set1)), json(dataSeries(set1))])

@@ -35,6 +35,16 @@
             <g class="gf-y-grid grid" />
           </g>
 
+          <VueSpecialRect
+            v-for="(element, index) in xSpecial"
+            :key="element.key"
+            :xValue="element"
+            :xKey="xKey"
+            :xScale="xScale"
+            :rectHeight="svgHeight"
+            :index="index"
+          />
+
           <VueLine
             @focused="focused = $event"
             :xKey="xKey"
@@ -97,6 +107,7 @@ import { timeMonth } from "d3-time";
 
 import ChartContainer from "../chart-components/ChartContainer"
 import VueLine from "../chart-components/VueLine"
+import VueSpecialRect from "../chart-components/VueSpecialRect"
 
 import * as tweenObj from "@tweenjs/tween.js";
 const TWEEN = tweenObj.default;
@@ -334,6 +345,7 @@ export default {
   components: {
     ChartContainer,
     VueLine,
+    VueSpecialRect,
   }
 };
 </script>
