@@ -4,7 +4,7 @@
     @mouseleave="mouseleave"
     fill="none"
     :stroke="color"
-    :stroke-width="mouseOver ? '5px' : '2px'"
+    :stroke-width="focused == index ? '5px' : '2px'"
     class="value-line"
     :d="animatedPath"
   />
@@ -36,6 +36,7 @@ export default {
         },
         t: Number,
         isDelayed: Boolean,
+        focused: Number
     },
     data: () => ({
         mouseOver: false,

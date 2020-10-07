@@ -6,7 +6,7 @@
       title="Fiscal Firepower"
       :info="ChartInfo"
       source="See FRED (Federal Reserve St. Louis, 2020)"
-      chartNote="Using Real Gov Consumption Expenditures + Gross Investment"
+      chartNote="Government Current Expenditures % Change From Last Year"
       xAxisNote="Quarterly Data"
       :data="ChartData"
       :xTicks="xTicks"
@@ -23,7 +23,7 @@ import { timeFormat } from "d3-time-format";
 import { timeMonth } from "d3-time";
 
 const apiKey = "f03c8ce7f9abbc474ccb57117ac26c86"; //GOOD THING I AM NOT PUBLICALLY HOSTING THIS ON GITHUB, OTHERWISE THIS WOULD BE PRETTY DUMB
-const set1 = "GCEC1";
+const set1 = "FGEXPND";
 const set2 = "PCEC";
 const fUnits = "pc1";
 const start = "2007-03-01"; //YYYY-MM-DD

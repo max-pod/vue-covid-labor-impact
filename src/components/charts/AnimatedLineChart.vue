@@ -33,6 +33,7 @@
             :color="color(index)"
             :id="sum.key"
             :index="index"
+            :focused="focused"
             :t="t"
           />
         </g>
@@ -131,7 +132,7 @@ export default {
     animatedData: [],
     paths: [],
     t: 0,
-    focused: -1,
+    focused: 11,
   }),
   methods: {
     renderAxes() {
