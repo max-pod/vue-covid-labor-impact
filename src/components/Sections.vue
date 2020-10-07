@@ -41,7 +41,15 @@
       <p></p>
     </div>
     <div class="step" data-source="EmploymentByWage">
-      <h1>Disparate Wage Employment</h1>
+      <h2>Disparate Wage Employment</h2>
+      <p></p>
+    </div>
+    <div class="step" data-source="EmploymentByIndustry">
+      <h2>Disparate Industry Employment</h2>
+      <p></p>
+    </div>
+    <div class="step" data-source="JobPostingByEducation">
+      <h2>Disparate Job Posting By Education</h2>
       <p></p>
     </div>
   </Scrollama>

@@ -73,6 +73,7 @@
         :color="color"
         :svgHeight="svgHeight/2"
         :svgWidth="svgWidth"
+        :maxCount="legendMax"
       />
     </template>
   </ChartContainer>
@@ -132,6 +133,7 @@ export default {
         format: timeFormat("%b - %y"),
       }),
     },
+    legendMax: Number,
     data: Array,
     info: Object,
   },

@@ -9,7 +9,8 @@ import UniqueImpact from "./dataCharts/UniqueImpact";
 import MonetaryPolicy from "./dataCharts/MonetaryPolicy";
 import FiscalPolicy from "./dataCharts/FiscalPolicy";
 import EmploymentByWage from "./dataCharts/EmploymentByWage";
-
+import EmploymentByIndustry from "./dataCharts/EmploymentByIndustry"
+import JobPostingByEducation from "./dataCharts/JobPostingByEducation"
 
 export default {
     name: 'vis',
@@ -21,6 +22,8 @@ export default {
         FiscalPolicy,
 
         EmploymentByWage,
+        EmploymentByIndustry,
+        JobPostingByEducation,
     }
 }
 </script>

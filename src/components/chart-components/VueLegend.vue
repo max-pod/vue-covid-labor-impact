@@ -26,18 +26,22 @@ export default {
         type: Number,
         default: 100,
       },
+      maxCount: {
+        type: Number,
+        default: 6
+      },
       color: Function,
       svgHeight: Number,
       svgWidth: Number,
     },
     methods: {
       position(index, length) {
-        const maxCount = 6;
-        let x = (index%maxCount != 0) ? index%maxCount-1 : 5
-        return [30+70*(x),Math.ceil(index/maxCount)*25]
+        let x = (index%this.maxCount != 0) ? index%this.maxCount-1 : this.maxCount-1
+        console.log("legend x",x)
+        return [30+this.svgWidth/this.maxCount*(x),Math.ceil(index/this.maxCount)*25]
       },
       maxHeight(length) {
-        return Math.ceil(length/6)*25+10+5
+        return Math.ceil(length/this.maxCount)*25+10+5
       }
     },
     mounted() {
