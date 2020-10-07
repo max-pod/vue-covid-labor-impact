@@ -5,6 +5,7 @@
     fill="none"
     :stroke="color"
     :stroke-width="focused == index ? '5px' : '2px'"
+    stroke-linecap="round"
     class="value-line"
     :d="animatedPath"
   />

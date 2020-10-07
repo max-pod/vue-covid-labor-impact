@@ -34,7 +34,11 @@
     </div>
     <div class="step" data-source="FiscalPolicy">
       <h2>Mixed Fiscal Stimulus</h2>
-      <p>Show Fiscal</p>
+      <p>Stimulus was powerful.</p>
+    </div>
+    <div class="step" data-source="">
+      <h1>Disparate Labor Impacts</h1>
+      <p>Half a dozen Chetty Citations</p>
     </div>
   </Scrollama>
   </div>
