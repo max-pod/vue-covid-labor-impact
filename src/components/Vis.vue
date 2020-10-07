@@ -9,6 +9,7 @@ import UniqueImpact from "./dataCharts/UniqueImpact";
 
 import UnemploymentCombined from "./dataCharts/UnemploymentCombined.vue";
 import MonetaryPolicy from "./dataCharts/MonetaryPolicy.vue";
+import FiscalPolicy from "./dataCharts/FiscalPolicy.vue";
 
 
 export default {
@@ -18,6 +19,7 @@ export default {
         UniqueImpact,
         UnemploymentCombined,
         MonetaryPolicy,
+        FiscalPolicy,
     }
 }
 </script>

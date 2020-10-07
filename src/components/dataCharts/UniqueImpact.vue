@@ -52,7 +52,7 @@ export default {
   data: () => ({
     source: "See FRED (Federal Reserve St. Louis, 2020)",
     chartNote: "% Job Losses Compared to Prior Employment Peak",
-    xAxisNote: "Days Until Recovery",
+    xAxisNote: "Days For Employment Recovery",
     ChartTitle: "Job losses during post-war recessions",
     ChartData: [],
     ChartInfo: {},

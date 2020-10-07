@@ -1,27 +1,32 @@
 <template>
   <div>
     <Chart
-      :title="ChartTitle"
       xKey="date"
       yKey="value"
-      :source="source"
-      :data="ChartData"
+      title="Monetary Firepower"
       :info="ChartInfo"
+      source="See FRED (Federal Reserve St. Louis, 2020)"
+      chartNote="Using Federal Debt Held by Federal Reserve Banks as Percent of Gross Domestic Product"
+      xAxisNote="Quarterly Data"
+      :data="ChartData"
+      :xTicks="xTicks"
     />
   </div>
 </template>
 
 <script>
-import Chart from "../charts/MultiLineChart.vue";
+import Chart from "../charts/LineChart.vue";
 import { json } from "d3-fetch";
 import { timeParse } from "d3-time-format";
 import { fredUnits, template } from "../functions/d3-max";
+import { timeFormat } from "d3-time-format";
+import { timeMonth } from "d3-time";
 //PCEPI
 const apiKey = "f03c8ce7f9abbc474ccb57117ac26c86"; //GOOD THING I AM NOT PUBLICALLY HOSTING THIS ON GITHUB, OTHERWISE THIS WOULD BE PRETTY DUMB
-const set1 = "GDPC1";
+const set1 = "HBFRGDQ188S";
 const set2 = "PCEC";
-const fUnits = "pc1";
-const start = "2018-03-01"; //YYYY-MM-DD
+const fUnits = "";
+const start = "2007-03-01"; //YYYY-MM-DD
 const parseTime = timeParse("%Y-%m-%d");
 const parseLastUpdated = timeParse("%Y-%m-%d");
 
@@ -37,28 +42,33 @@ function dataInfo(set) {
 export default {
   name: "MonetaryPolicy",
   data: () => ({
-    source: "See FRED (Federal Reserve St. Louis, 2020)",
-    ChartTitle: "",
     ChartData: [],
     ChartInfo: {},
+    xTicks: {
+      interval: timeMonth.every(12),
+      format: timeFormat("%b - %y"),
+    },
   }),
   mounted() {
-    let sets = [set1, set2];
-
-    let promiseArray = [];
-    sets.forEach((set) => {promiseArray.push(json(dataSeries(set)));})
-
-    Promise.all([... promiseArray])
-      .then((responses) => {
+    Promise.all([json(dataInfo(set1)), json(dataSeries(set1))])
+      .then((response) => {
+        let { notes, last_updated, id, units, title } = response[0].seriess[0];
         let dataSet = [];
 
-        for (let x in responses) {
-            for (let y in responses[x].observations) {
-                dataSet.push({date: parseTime(responses[x].observations[y].date), value: +responses[x].observations[y].value, key: sets[x]})
-            }
+        last_updated = parseTime(last_updated.split(" ")[0]);
+        if (units) {
+          units = fredUnits[fUnits] + " of " + units;
         }
-        console.log("Dataset: ", dataSet)
-        this.ChartTitle = "Random Chart";
+
+        response[1].observations.forEach((element) => {
+          dataSet.push({
+            date: parseTime(element.date),
+            value: +element.value,
+          });
+        });
+
+        this.ChartTitle = title;
+        this.ChartInfo = { notes, last_updated, id, units };
         this.ChartData = dataSet;
       })
       .catch((error) => {

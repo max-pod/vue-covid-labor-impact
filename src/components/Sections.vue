@@ -24,11 +24,16 @@
       <br/>
     </div>
     <div class="step" data-source="MonetaryPolicy">
-      <h1>... Despite Powerful Monetary Policy</h1>
-      <p>Show Basic Montery</p>
+      <h2>Despite Powerful Monetary Policy</h2>
+      <p>The extraordinary scale of this pandemic has prompted an extraordinary response from the Federal Reserve. The chart on the left queries FRED for Federal Debt Held by Federal Reserve Banks as Percent of Gross Domestic Product (HBFRGDQ188S).</p>
+      <br/>
+      <p>This chart illustrates the scale of action and quickness of action. The Fed has unleashed a host of lending facilities, large scale asset purchases, dollar swap lines both as a response of flight-to-quality and call for stability.</p>
+      <br/>
+      <p>Compared to the Financial Crisis of 2007, this policy action has been released in one large burst, around March. More so, the pandemic policy action has been deeper then the 2007. Programs such as the TALF, MMLF, CPFF, and PDCFF have made a resurgence, along with the newly made MLF, MSLF, PPPLF, CCF. This expansion of tools targets varied groups, from municipalities to medium sized businesses.</p>
+      <br/>
     </div>
-    <div class="step" data-source="UnemploymentCombined">
-      <h1>Indeph look into Fiscal</h1>
+    <div class="step" data-source="FiscalPolicy">
+      <h2>Mixed Fiscal Stimulus</h2>
       <p>Show Fiscal</p>
     </div>
   </Scrollama>
@@ -69,6 +74,10 @@ export default {
 <style scoped>
 #sections {
   margin-top: 100px;
+}
+
+h2 {
+  font-size: 120%;
 }
 
 .step {

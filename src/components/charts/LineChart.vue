@@ -1,7 +1,10 @@
 <template>
   <ChartContainer
-    :info="info"
     :title="title"
+    :info="info"
+    :chartNote="chartNote"
+    :xAxisNote="xAxisNote"
+    :source="source"
   >
     <template #infoTop>
     <transition name="fade">
@@ -103,6 +106,8 @@ export default {
   props: {
     title: String,
     source: String,
+    chartNote: String,
+    xAxisNote: String,
     xKey: {
       type: String,
       default: "date",
@@ -143,7 +148,7 @@ export default {
     margin: {
       left: 40,
       right: 10,
-      bottom: 45,
+      bottom: 60,
       top: 10,
     },
     redrawToggle: true,

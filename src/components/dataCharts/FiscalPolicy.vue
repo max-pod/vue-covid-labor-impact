@@ -1,12 +1,15 @@
 <template>
   <div>
     <Chart
-      :title="ChartTitle"
       xKey="date"
       yKey="value"
-      :source="source"
-      :data="ChartData"
+      title="Fiscal Firepower"
       :info="ChartInfo"
+      source="See FRED (Federal Reserve St. Louis, 2020)"
+      chartNote="Using Real Gov Consumption Expenditures + Gross Investment"
+      xAxisNote="Quarterly Data"
+      :data="ChartData"
+      :xTicks="xTicks"
     />
   </div>
 </template>
@@ -16,9 +19,11 @@ import Chart from "../charts/LineChart.vue";
 import { json } from "d3-fetch";
 import { timeParse } from "d3-time-format";
 import { fredUnits, template } from "../functions/d3-max";
-//PCEPI
+import { timeFormat } from "d3-time-format";
+import { timeMonth } from "d3-time";
+
 const apiKey = "f03c8ce7f9abbc474ccb57117ac26c86"; //GOOD THING I AM NOT PUBLICALLY HOSTING THIS ON GITHUB, OTHERWISE THIS WOULD BE PRETTY DUMB
-const set1 = "GDPC1";
+const set1 = "GCEC1";
 const set2 = "PCEC";
 const fUnits = "pc1";
 const start = "2007-03-01"; //YYYY-MM-DD
@@ -35,14 +40,15 @@ function dataInfo(set) {
 }
 
 export default {
-  name: "UnemploymentCombined",
+  name: "FiscalPolicy",
   data: () => ({
     source: "See FRED (Federal Reserve St. Louis, 2020)",
-    chartNote: "",
-    xAxisNotes: "",
-    ChartTitle: "",
     ChartData: [],
     ChartInfo: {},
+    xTicks: {
+      interval: timeMonth.every(12),
+      format: timeFormat("%b - %y"),
+    },
   }),
   mounted() {
     Promise.all([json(dataInfo(set1)), json(dataSeries(set1))])
