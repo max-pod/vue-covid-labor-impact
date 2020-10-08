@@ -31,11 +31,18 @@ import Scrollama from "vue-scrollama";
 import 'buefy/dist/buefy.css'
 
 import MarkdownItVue from 'markdown-it-vue'
-//import 'markdown-it-vue/dist/markdown-it-vue.css'
+import 'markdown-it-vue/dist/markdown-it-vue.css'
 
 import step1 from "../assets/content/step1.md"
 import step2 from "../assets/content/step2.md"
 import step3 from "../assets/content/step3.md"
+import step4 from "../assets/content/step4.md"
+import step5 from "../assets/content/step5.md"
+import step6 from "../assets/content/step6.md"
+import step7 from "../assets/content/step7.md"
+import step8 from "../assets/content/step8.md"
+import step9 from "../assets/content/step9.md"
+import step10 from "../assets/content/step10.md"
 
 export default {
   name: "Sections",
@@ -47,13 +54,13 @@ export default {
       steps: [
         {content: step2, source: 'MonetaryPolicy', key: "MonetaryPolicy"},
         {content: step3, source: 'FiscalPolicy', key: "FiscalPolicy"},
-        {content: step3, source: 'EmploymentByWage', key: "EmploymentByWage"},
-        {content: step3, source: 'SpendingByIncome', key: "SpendingByIncome"},
-        {content: step3, source: 'MathByIncome', key: "MathByIncome"},
-        {content: step3, source: 'JobPostingByEducation', key: "JobPostingByEducation"},
-        {content: step3, source: 'EmploymentByIndustry', key: "EmploymentByIndustry"},
-        {content: step3, source: 'SpendingByIndustry', key: "SpendingByIndustry"},
-        {content: step3, source: 'PandemicNumbers', key: "PandemicNumbers"},
+        {content: step4, source: 'EmploymentByWage', key: "EmploymentByWage"},
+        {content: step5, source: 'SpendingByIncome', key: "SpendingByIncome"},
+        {content: step6, source: 'MathByIncome', key: "MathByIncome"},
+        {content: step7, source: 'JobPostingByEducation', key: "JobPostingByEducation"},
+        {content: step8, source: 'EmploymentByIndustry', key: "EmploymentByIndustry"},
+        {content: step9, source: 'SpendingByIndustry', key: "SpendingByIndustry"},
+        {content: step10, source: 'PandemicNumbers', key: "PandemicNumbers"},
       ]
     }
   },
