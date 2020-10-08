@@ -40,11 +40,11 @@ function dateDiffInDays(a, b) {
 }
 
 function dataSeries(set) {
-  return `https://crossorigin.me/https://api.stlouisfed.org/fred/series/observations?series_id=${set}&api_key=${apiKey}&observation_start=${start}&units=${fUnits}&file_type=json`;
+  return `https://cors-anywhere.herokuapp.com/https://api.stlouisfed.org/fred/series/observations?series_id=${set}&api_key=${apiKey}&observation_start=${start}&units=${fUnits}&file_type=json`;
 }
 
 function dataInfo(set) {
-  return `https://crossorigin.me/https://api.stlouisfed.org/fred/series?series_id=${set}&api_key=${apiKey}&observation_start=${start}&units=${fUnits}&file_type=json`;
+  return `https://cors-anywhere.herokuapp.com/https://api.stlouisfed.org/fred/series?series_id=${set}&api_key=${apiKey}&observation_start=${start}&units=${fUnits}&file_type=json`;
 }
 
 export default {
@@ -106,6 +106,7 @@ export default {
 
     Promise.all([json(dataSeries(set1)), json(dataInfo(set1))])
       .then((responses) => {
+        console.log("HERE ARE THE RESOPNES",responses)
         let dataSet = [];
         let values = responses[0].observations;
         let splicedValues = [];
