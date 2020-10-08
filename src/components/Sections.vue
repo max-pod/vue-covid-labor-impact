@@ -9,72 +9,17 @@
       <p>October 7, 2020</p>
       <br/>
 
-      <h1>What was Covid-19's Impact on Labor?</h1>
+      <h1>Despair of Disparity</h1>
+      <h2>Examining the Covid-19 Impact on Labor.</h2>
       <p>By <a href="https://www.linkedin.com/in/maxim-podolski-95bbb0158/">Maxim Podolski</a></p>
       <br/>
-      <i><small>This report was created with interactivity. Try hovering over some of the charts</small></i>
-      <br/><br/>
-      <h2>Covid-19 Uniquely Disrupted The Labor Market</h2>
-      <p>The pandemic posed a remarkable shock to the US economy, unmatched in impact by any prior recession. The chart on the right queries FRED for PAYEMS, which represents total nonfarm payroll. According to the St. Louis Fed, this approximates 80% of the workers who contribute to GDP. </p>
+      <p><i><small>This report was created with interactivity. Try hovering over some of the charts</small></i></p>
       <br/>
-      <p>The chart exposes three major insights.</p>
-      <br/>
-      <p><b>First, no other recession in the last 70 years matches the severity of the pandemic.</b> In % job losses relative to the peak, the pandemic is nearly three times as dramatic as the 2007 financial crash.</p>
-      <br/>
-      <p><b>Second, and even more concerningly, the recovery has been slowing.</b> If this trend continues, the latter half of the recovery has the potential to meet the pace of the 2007 recovery which took over 2200 days to fully recover lost jobs.</p>
-      <br/>
-      <p><b>Third, labor markets have recovered slower relative to every new recession.</b> Prior to 1981, the recovery time ranged between ~200 to ~600 days. In order, the 1981 to 2001 labor market recoveries took about: 800 days, 1300 days, and 2200 days.</p>
-      <br/>
-    </div>
-    <div class="step" data-source="MonetaryPolicy">
-      <h2>... Despite Powerful Monetary Policy</h2>
-      <p>The extraordinary scale of this pandemic has prompted an extraordinary response from the Federal Reserve. The chart on the left queries FRED for Federal Debt Held by Federal Reserve Banks as Percent of Gross Domestic Product (HBFRGDQ188S).</p>
-      <br/>
-      <p>This chart illustrates the scale of action and quickness of action. The Fed has unleashed a host of lending facilities, large scale asset purchases, dollar swap lines both as a response of flight-to-quality and call for stability.</p>
-      <br/>
-      <p>Compared to the Financial Crisis of 2007, this policy action has been released in one large burst, around March. More so, the pandemic policy action has been deeper then the 2007. Programs such as the TALF, MMLF, CPFF, and PDCFF have made a resurgence, along with the newly made MLF, MSLF, PPPLF, CCF. This expansion of tools targets varied groups, from municipalities to medium sized businesses.</p>
-      <br/>
-    </div>
-    <div class="step" data-source="FiscalPolicy">
-      <h2>... And Despite Massive Fiscal Stimulus</h2>
-      <p>Fiscal support had been remarkable, when compared to the 2007 response. Whether the support has been effective, however, is a separate matter. As Blanchard points out, fiscal policy should have three goals:  Infection Fighting, Disaster relief, and Supporting Aggregate Demand.</p>
-    </div>
-
-    <div class="step" data-source="EmploymentByWage">
-      <h1>Disparity By Income</h1>
-      <h2>Employment By Income</h2>
-      <p></p>
-    </div>
-    <div class="step" data-source="SpendingByIncome">
-      <h2>Spending By Income</h2>
-      <p></p>
-    </div>
-    <div class="step" data-source="MathByIncome">
-      <h2>Math By Income</h2>
-      <p></p>
-    </div>
-
-    <div class="step" data-source="JobPostingByEducation">
-      <h1>Disparity By Education</h1>
-      <h2>Disparate Job Posting By Education</h2>
-      <p></p>
+      <MarkdownItVue :content="step1"/>
     </div>
     
-    <div class="step" data-source="EmploymentByIndustry">
-      <h1>Disparity By Industry</h1>
-      <h2>Employment By Industry </h2>
-      <p></p>
-    </div>
-    <div class="step" data-source="SpendingByIndustry">
-      <h2>Spending On Industries</h2>
-      <p></p>
-    </div>
-    
-    <div class="step" data-source="PandemicNumbers">
-      <h1>Concluding Thoughts</h1>
-
-      <p><i>There appears to be some disparity.</i></p>
-      <p></p>
+    <div v-for="step in steps" :key="step.key" class="step" :data-source="step.source">
+      <MarkdownItVue :content="step.content" />
     </div>
   </Scrollama>
   </div>
@@ -85,16 +30,32 @@ import "intersection-observer";
 import Scrollama from "vue-scrollama";
 import 'buefy/dist/buefy.css'
 
+import MarkdownItVue from 'markdown-it-vue'
+//import 'markdown-it-vue/dist/markdown-it-vue.css'
+
+import step1 from "../assets/content/step1.md"
+import step2 from "../assets/content/step2.md"
+import step3 from "../assets/content/step3.md"
+
 export default {
   name: "Sections",
   data: function() {
     return {
       stepIndex: 0,
-      stepSource: "EMB"
+      stepSource: "EMB",
+      step1: step1,
+      steps: [
+        {content: step2, source: 'MonetaryPolicy', key: "MonetaryPolicy"},
+        {content: step3, source: 'FiscalPolicy', key: "FiscalPolicy"},
+        {content: step3, source: 'EmploymentByWage', key: "EmploymentByWage"},
+        {content: step3, source: 'SpendingByIncome', key: "SpendingByIncome"},
+        {content: step3, source: 'MathByIncome', key: "MathByIncome"},
+        {content: step3, source: 'JobPostingByEducation', key: "JobPostingByEducation"},
+        {content: step3, source: 'EmploymentByIndustry', key: "EmploymentByIndustry"},
+        {content: step3, source: 'SpendingByIndustry', key: "SpendingByIndustry"},
+        {content: step3, source: 'PandemicNumbers', key: "PandemicNumbers"},
+      ]
     }
-  },
-  components: {
-    Scrollama,
   },
   methods: {
     handler({element, index }) {
@@ -107,7 +68,11 @@ export default {
       
       element.classList.add("active");
     }
-  }
+  },
+  components: {
+    Scrollama,
+    MarkdownItVue,
+  },
 };
 </script>
 
@@ -123,7 +88,7 @@ h2 {
 .step {
   margin-bottom: 100px;
   margin-left: 20px;
-  height: 700px;
+  min-height: 700px;
   font-family: "Domine";
   font-weight: 400;
   line-height: 1.4em;

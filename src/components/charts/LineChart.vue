@@ -339,7 +339,7 @@ export default {
       setTimeout(() => {
         this.data.redrawToggle = true;
         this.AnimateLoad();
-      }, 300);
+      }, 500);
     },
   },
   components: {

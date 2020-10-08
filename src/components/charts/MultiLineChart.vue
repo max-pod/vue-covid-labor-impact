@@ -271,7 +271,7 @@ export default {
           this.$data.svgWidth =
             document.getElementById("container").offsetWidth * 0.75;
           this.AnimateLoad();
-        }, 300);
+        }, 500);
       });
     },
     tween(start, end) {

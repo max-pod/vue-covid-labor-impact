@@ -62,11 +62,27 @@ h1 {
 }
 
 strong {
-  color: rgb(245, 155, 155);
+  color: rgb(240, 29, 29);
 }
 
 a {
   color: rgb(221, 0, 255);
   text-decoration: none;
 }
+
+.markdown-body {
+  font-family: "Domine";
+  font-weight: 400;
+  line-height: 1.4em;
+  text-align: justify;
+}
+
+.markdown-body p {
+  margin-bottom: 20px;
+}
+
+.markdown-body h2 {
+  font-size: 120%;
+}
+
 </style>
