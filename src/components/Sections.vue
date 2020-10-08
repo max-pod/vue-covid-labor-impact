@@ -8,7 +8,7 @@
     <div class="step" data-source="UniqueImpact">
       <p>October 7, 2020</p>
       <br/>
-      
+
       <h1>What was Covid-19's Impact on Labor?</h1>
       <p>By <a href="https://www.linkedin.com/in/maxim-podolski-95bbb0158/">Maxim Podolski</a></p>
       <br/>
@@ -37,38 +37,43 @@
     </div>
     <div class="step" data-source="FiscalPolicy">
       <h2>... And Despite Massive Fiscal Stimulus</h2>
-      <p>Stimulus was powerful.</p>
+      <p>Fiscal support had been remarkable, when compared to the 2007 response. Whether the support has been effective, however, is a separate matter. As Blanchard points out, fiscal policy should have three goals:  Infection Fighting, Disaster relief, and Supporting Aggregate Demand.</p>
     </div>
-    <div class="step" data-source="">
-      <h1>Disparate Impacts</h1>
-      <p></p>
-    </div>
+
     <div class="step" data-source="EmploymentByWage">
-      <h2>Disparate Wage Employment</h2>
-      <p></p>
-    </div>
-    <div class="step" data-source="EmploymentByIndustry">
-      <h2>Disparate Industry Employment</h2>
-      <p></p>
-    </div>
-    <div class="step" data-source="JobPostingByEducation">
-      <h2>Disparate Job Posting By Education</h2>
-      <p></p>
-    </div>
-    <div class="step" data-source="MathByIncome">
-      <h2>Math By Income</h2>
+      <h1>Disparity By Income</h1>
+      <h2>Employment By Income</h2>
       <p></p>
     </div>
     <div class="step" data-source="SpendingByIncome">
       <h2>Spending By Income</h2>
       <p></p>
     </div>
-    <div class="step" data-source="SpendingByIndustry">
-      <h2>Spending By Industry</h2>
+    <div class="step" data-source="MathByIncome">
+      <h2>Math By Income</h2>
       <p></p>
     </div>
+
+    <div class="step" data-source="JobPostingByEducation">
+      <h1>Disparity By Education</h1>
+      <h2>Disparate Job Posting By Education</h2>
+      <p></p>
+    </div>
+    
+    <div class="step" data-source="EmploymentByIndustry">
+      <h1>Disparity By Industry</h1>
+      <h2>Employment By Industry </h2>
+      <p></p>
+    </div>
+    <div class="step" data-source="SpendingByIndustry">
+      <h2>Spending On Industries</h2>
+      <p></p>
+    </div>
+    
     <div class="step" data-source="PandemicNumbers">
-      <h2>Pandemic Numbers</h2>
+      <h1>Concluding Thoughts</h1>
+
+      <p><i>There appears to be some disparity.</i></p>
       <p></p>
     </div>
   </Scrollama>
