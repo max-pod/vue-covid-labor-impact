@@ -6,6 +6,7 @@
     @step-enter="handler"
   >
     <div class="step" data-source="UniqueImpact">
+      <p>October 7, 2020</p>
       <h1>What was Covid-19's Impact on Labor?</h1>
       <p>By <a href="https://www.linkedin.com/in/maxim-podolski-95bbb0158/">Maxim Podolski</a></p>
       <br/>
