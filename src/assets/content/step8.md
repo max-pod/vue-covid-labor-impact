@@ -3,18 +3,13 @@
 The Pandemic disparately impacted businesses. We follow the NAICS classification
 system.
 
-## Employment By Industries
+## Employment by Industries
 
-Consumers massively increased spending on Grocery & Food Store in April, and
-after that sustaining at around .10%. Other industries faced decreased spending.
+Employment Across Industries overall suffered as the result of the Pandemic
+demand shock, and overall, industries followed the same trend but differed in
+magnitude.
 
-As pointed out by the WSJ, 'stuff that we want' has seen an uptick in inflation.
-[^12] That category includes food at home, rent at home. Conversely, items such
-as shoes, men's suits, and airline fares deflated. Therefore, spending on
-industries may overstate shifts in consumer preferences, as prices have also
-shifted during the Pandemic. For example, Grocery & Food Store businesses are
-earning more in part due to price inflation.
+**Leisure and Hospitality** suffered the most, peaking at a 50% labor loss.
 
-[^12]: See Inflation Is Already Here—For the Stuff You Actually Want to Buy
-    (Mackintosh, 2020)
-    https://www.wsj.com/articles/inflation-is-already-herefor-the-stuff-you-actually-want-to-buy-11601112630
+**Business services**, on the other hand, was much less impacted, peaking at a
+15% labor loss.
