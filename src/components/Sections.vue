@@ -52,6 +52,18 @@
       <h2>Disparate Job Posting By Education</h2>
       <p></p>
     </div>
+    <div class="step" data-source="MathByIncome">
+      <h2>Math By Income</h2>
+      <p></p>
+    </div>
+    <div class="step" data-source="SpendingByIncome">
+      <h2>Spending By Income</h2>
+      <p></p>
+    </div>
+    <div class="step" data-source="PandemicNumbers">
+      <h2>Pandemic Numbers</h2>
+      <p></p>
+    </div>
   </Scrollama>
   </div>
 </template>

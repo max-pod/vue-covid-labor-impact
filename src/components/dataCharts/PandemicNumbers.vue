@@ -1,11 +1,11 @@
 <template>
   <div>
     <Chart
-      title="Employment Across Industries"
+      title="New Case Count"
       xKey="date"
       yKey="value"
-      source="Sourced from Paychex, Intuit, Earnin, and Kronos. See TrackTheRecovery.org"
-      chartNote="% Change"
+      source="Sourced from New York Times COVID-19 Repository. See TrackTheRecovery.org"
+      chartNote="New Confirmed Cases, 7 Day Moving Avg"
       xAxisNote="Weekly Data"
       :data="ChartData"
       :info="ChartInfo"
@@ -29,7 +29,7 @@ const parseTime = timeParse("%Y-%m-%d");
 const parseLastUpdated = timeParse("%Y-%m-%d");
 
 export default {
-  name: "EmploymentByWage",
+  name: "PandemicNumbers",
   data: () => ({
     ChartData: [],
     ChartInfo: {},
@@ -41,13 +41,10 @@ export default {
   }),
   mounted() {
     const sets = [
-      "https://raw.githubusercontent.com/OpportunityInsights/EconomicTracker/main/data/Employment%20Combined%20-%20National%20-%20Daily.csv",
+      "https://raw.githubusercontent.com/OpportunityInsights/EconomicTracker/main/data/COVID%20-%20National%20-%20Daily.csv",
     ];
     let keys = [
-      {full: "emp_combined_ss40", name: "Trade, Transportation, & Utilities"},
-      {full: "emp_combined_ss60", name: "Business Services"},
-      {full: "emp_combined_ss65", name: "Education & Health"},
-      {full: "emp_combined_ss70", name: "Leisure & Hospitality"},
+      {full: "new_case_count", name: "Confirmed COVID-19 Cases"},
     ];
 
     let promiseArray = [];
@@ -72,6 +69,8 @@ export default {
               date.setMonth(element.month)
               date.setDate(element.day)
 
+              if (isNaN(+element[key.full])) return;
+
               dataSet.push({
                 date: date,
                 value: +element[key.full],
@@ -80,6 +79,7 @@ export default {
             });
           });
         }
+        console.log("SPENDING BY INCOME: ", dataSet);
         this.ChartData = dataSet;
       })
       .catch((error) => {

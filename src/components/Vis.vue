@@ -11,6 +11,9 @@ import FiscalPolicy from "./dataCharts/FiscalPolicy";
 import EmploymentByWage from "./dataCharts/EmploymentByWage";
 import EmploymentByIndustry from "./dataCharts/EmploymentByIndustry"
 import JobPostingByEducation from "./dataCharts/JobPostingByEducation"
+import MathByIncome from "./dataCharts/MathByIncome"
+import SpendingByIncome from "./dataCharts/SpendingByIncome"
+import PandemicNumbers from "./dataCharts/PandemicNumbers"
 
 export default {
     name: 'vis',
@@ -24,6 +27,9 @@ export default {
         EmploymentByWage,
         EmploymentByIndustry,
         JobPostingByEducation,
+        MathByIncome,
+        SpendingByIncome,
+        PandemicNumbers,
     }
 }
 </script>

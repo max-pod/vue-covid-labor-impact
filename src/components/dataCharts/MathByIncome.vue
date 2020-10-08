@@ -1,12 +1,12 @@
 <template>
   <div>
     <Chart
-      title="Employment Across Industries"
+      title="Math Achievements By Income"
       xKey="date"
       yKey="value"
-      source="Sourced from Paychex, Intuit, Earnin, and Kronos. See TrackTheRecovery.org"
+      source="Online Data from Zearn. See TrackTheRecovery.org"
       chartNote="% Change"
-      xAxisNote="Weekly Data"
+      xAxisNote="Schools' Cumulative Math Achievements Based on ZIP Income"
       :data="ChartData"
       :info="ChartInfo"
       :xTicks="xTicks"
@@ -41,13 +41,12 @@ export default {
   }),
   mounted() {
     const sets = [
-      "https://raw.githubusercontent.com/OpportunityInsights/EconomicTracker/main/data/Employment%20Combined%20-%20National%20-%20Daily.csv",
+      "https://raw.githubusercontent.com/OpportunityInsights/EconomicTracker/main/data/Zearn%20-%20National%20-%20Weekly.csv",
     ];
     let keys = [
-      {full: "emp_combined_ss40", name: "Trade, Transportation, & Utilities"},
-      {full: "emp_combined_ss60", name: "Business Services"},
-      {full: "emp_combined_ss65", name: "Education & Health"},
-      {full: "emp_combined_ss70", name: "Leisure & Hospitality"},
+      {full: "badges_inclow", name: "Low Income"},
+      {full: "badges_incmiddle", name: "Moderate Income"},
+      {full: "badges_inchigh", name: "High Income"},
     ];
 
     let promiseArray = [];
@@ -62,16 +61,18 @@ export default {
 
         for (let x in responses) {
           responses[x].forEach((element) => {
-            if (element.emp_combined==".") {
-              return;
-            }
-
             keys.forEach((key) => {
               let date = new Date()
+              if (element.year == "2019") return;
+
               date.setFullYear(element.year)
               date.setMonth(element.month)
-              date.setDate(element.day)
+              date.setDate(element.day_endofweek)
 
+              let value;
+              isNaN(+element[key.full])? value = +element["break_"+key.full] : value = +element[key.full]
+
+              //console.log(value, key.full, date)
               dataSet.push({
                 date: date,
                 value: +element[key.full],
@@ -81,6 +82,7 @@ export default {
           });
         }
         this.ChartData = dataSet;
+        //console.log("dataSet: ",dataSet)
       })
       .catch((error) => {
         console.warn(error);

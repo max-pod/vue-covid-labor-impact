@@ -37,7 +37,7 @@ export default {
     methods: {
       position(index, length) {
         let x = (index%this.maxCount != 0) ? index%this.maxCount-1 : this.maxCount-1
-        console.log("legend x",x)
+        //console.log("legend x",x)
         return [30+this.svgWidth/this.maxCount*(x),Math.ceil(index/this.maxCount)*25]
       },
       maxHeight(length) {

@@ -86,7 +86,7 @@ export default {
     },
   },
   mounted() {
-    //console.log(this.values)
+    console.log(this.values)
   }
 };
 </script>

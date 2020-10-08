@@ -4,13 +4,14 @@
       title="Jobs Postings By Education"
       xKey="date"
       yKey="value"
-      source="See TrackTheRecovery.org"
+      source="Sourced from Burning Glass Technologies. See TrackTheRecovery.org"
       chartNote="% Change"
       xAxisNote="Weekly Data"
       :data="ChartData"
       :info="ChartInfo"
       :xTicks="xTicks"
       :yFormat="yFormat"
+      :legendMax="1"
     />
   </div>
 </template>

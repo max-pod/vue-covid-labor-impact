@@ -4,13 +4,14 @@
       title="Employment Across Income Categories"
       xKey="date"
       yKey="value"
-      source="See TrackTheRecovery.org"
+      source="Sourced from Paychex, Intuit, Earnin, and Kronos. See TrackTheRecovery.org"
       chartNote="% Change"
-      xAxisNote="Daily Data"
+      xAxisNote="Weekly Data"
       :data="ChartData"
       :info="ChartInfo"
       :xTicks="xTicks"
       :yFormat="yFormat"
+      :legendMax="1"
     />
   </div>
 </template>
@@ -43,9 +44,9 @@ export default {
       "https://raw.githubusercontent.com/OpportunityInsights/EconomicTracker/main/data/Employment%20Combined%20-%20National%20-%20Daily.csv",
     ];
     let keys = [
-      {full: "emp_combined_inclow", name: "Low"},
-      {full: "emp_combined_incmiddle", name: "Middle"},
-      {full: "emp_combined_inchigh", name: "High"},
+      {full: "emp_combined_inclow", name: "Low Income"},
+      {full: "emp_combined_incmiddle", name: "Middle Income"},
+      {full: "emp_combined_inchigh", name: "High Income"},
     ];
 
     let promiseArray = [];
