@@ -60,6 +60,10 @@
       <h2>Spending By Income</h2>
       <p></p>
     </div>
+    <div class="step" data-source="SpendingByIndustry">
+      <h2>Spending By Industry</h2>
+      <p></p>
+    </div>
     <div class="step" data-source="PandemicNumbers">
       <h2>Pandemic Numbers</h2>
       <p></p>

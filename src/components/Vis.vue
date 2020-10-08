@@ -14,6 +14,7 @@ import JobPostingByEducation from "./dataCharts/JobPostingByEducation"
 import MathByIncome from "./dataCharts/MathByIncome"
 import SpendingByIncome from "./dataCharts/SpendingByIncome"
 import PandemicNumbers from "./dataCharts/PandemicNumbers"
+import SpendingByIndustry from "./dataCharts/SpendingByIndustry"
 
 export default {
     name: 'vis',
@@ -30,6 +31,7 @@ export default {
         MathByIncome,
         SpendingByIncome,
         PandemicNumbers,
+        SpendingByIndustry,
     }
 }
 </script>
