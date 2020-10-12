@@ -3,15 +3,15 @@
     <Chart
       xKey="date"
       yKey="value"
-      title="Real Gross Domestic Product"
+      title="Real Personal Consumption Expenditures"
       :info="ChartInfo"
       source="See FRED (Federal Reserve St. Louis, 2020)"
       chartNote="Percent Change From Last Year"
-      xAxisNote="Quarterly Data"
+      xAxisNote="Monthly Data"
       :data="ChartData"
       :xTicks="xTicks"
       :xSpecial="recessionsObj"
-      :ySpecial="[0]"
+      :ySpecial="[]"
       :colors="['#009193']"
     />
   </div>
@@ -29,7 +29,7 @@ import recessionsObj from "../functions/recessionDates";
 let recessions = recessionsObj.slice(recessionsObj.length-2);
 
 const apiKey = "f03c8ce7f9abbc474ccb57117ac26c86"; //GOOD THING I AM NOT PUBLICALLY HOSTING THIS ON GITHUB, OTHERWISE THIS WOULD BE PRETTY DUMB
-const set1 = "GDPC1";
+const set1 = "PCEC96";
 
 const fUnits = "pc1";
 const start = "2019-01-01"; //YYYY-MM-DD
