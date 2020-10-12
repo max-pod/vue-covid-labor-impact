@@ -24,10 +24,10 @@ export default {
     computed: {
         rectX() {
             //console.log(this.xScale(this.xValue.peak))
-            return this.xScale(this.xValue.peak)
+            return this.xScale(this.xValue.peakDate)
         },
         rectWidth() {
-            let trough = (this.xValue.trough == "" || !this.xValue.trough) ? new Date() : this.xValue.trough;
+            let trough = (this.xValue.troughDate == "" || !this.xValue.troughDate) ? new Date() : this.xValue.troughDate;
             //console.log("RECT WIDTH", this.xScale(trough))
             return this.xScale(trough) - this.rectX;
         }

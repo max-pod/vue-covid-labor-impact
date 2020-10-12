@@ -32,16 +32,21 @@ const recessionsTrough = [
   "1991-03-01",
   "2001-11-01",
   "2009-06-01",
-  "",
+  "2020-05-01",
   ];
 
   let recessionsObj = [];
-  recessionsTrough.forEach((element, index) => {
+  recessionsTrough.forEach((e, index) => {
+    //console.log("THE RECESSION TROUGH")
     recessionsObj.push({
-      trough: parseDate(recessionsTrough[index]),
-      peak: parseDate(recessionsPeak[index]),
+      troughDate: parseDate(recessionsTrough[index]),
+      peakDate: parseDate(recessionsPeak[index]),
+      trough: recessionsTrough[index],
+      peak: recessionsPeak[index],
       key: recessionsPeak[index].split("-")[0],
     });
   });
+
+//  console.log("FULL RECESSIONSOBJ",recessionsObj, recessionsTrough, recessionsPeak)
 
   export default recessionsObj

@@ -16,6 +16,8 @@ import SpendingByIncome from "./dataCharts/SpendingByIncome"
 import PandemicNumbers from "./dataCharts/PandemicNumbers"
 import SpendingByIndustry from "./dataCharts/SpendingByIndustry"
 
+import HoursImpact from "./dataCharts/HoursImpact"
+
 export default {
     name: 'vis',
     props: ['stepIndex','stepSource'],
@@ -32,6 +34,8 @@ export default {
         SpendingByIncome,
         PandemicNumbers,
         SpendingByIndustry,
+
+        HoursImpact,
     }
 }
 </script>

@@ -52,6 +52,7 @@ export default {
       stepSource: "EMB",
       step1: step1,
       steps: [
+        {content: '# TEST CASE', source: 'HoursImpact', key: "HoursImpact"},
         {content: step2, source: 'MonetaryPolicy', key: "MonetaryPolicy"},
         {content: step3, source: 'FiscalPolicy', key: "FiscalPolicy"},
         {content: step4, source: 'EmploymentByWage', key: "EmploymentByWage"},
@@ -60,7 +61,7 @@ export default {
         {content: step7, source: 'JobPostingByEducation', key: "JobPostingByEducation"},
         {content: step8, source: 'EmploymentByIndustry', key: "EmploymentByIndustry"},
         {content: step9, source: 'SpendingByIndustry', key: "SpendingByIndustry"},
-        {content: step10, source: 'PandemicNumbers', key: "PandemicNumbers"},
+        {content: step10, source: 'PandemicNumbers', key: "PandemicNumbers"}, //TODO: INCOME QUARTILE VS INCOME
       ]
     }
   },
