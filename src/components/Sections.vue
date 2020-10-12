@@ -52,6 +52,7 @@ export default {
       stepSource: "EMB",
       step1: step1,
       steps: [
+        {content: '# TEST CASE', source: 'TestLine', key: "TestLine"},
         {content: '# TEST CASE', source: 'HoursImpact', key: "HoursImpact"},
         {content: step2, source: 'MonetaryPolicy', key: "MonetaryPolicy"},
         {content: step3, source: 'FiscalPolicy', key: "FiscalPolicy"},

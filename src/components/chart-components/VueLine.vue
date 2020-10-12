@@ -33,7 +33,7 @@ export default {
     line: Function,
     color: {
       type: String,
-      default: "Blue",
+      default: "#E41A1C",
     },
     t: Number,
     isDelayed: Boolean,

@@ -29,11 +29,13 @@
           <g class="x-axis" :transform="`translate(0, ${svgHeight})`" />
           <g class="y-axis" />
 
-          <!-- Grids -->
-          <g>
-            <g class="gf-x-grid grid" :transform="`translate(0, ${svgHeight})`" />
-            <g class="gf-y-grid grid" />
-          </g>
+          <Grid
+            v-if="redrawToggle === true"
+            :svgHeight="svgHeight"
+            :svgWidth="svgWidth"
+            :yScale="yScale"
+            :ySpecial="ySpecial"
+          />
 
           <VueSpecialRect
             v-for="(element, index) in xSpecial"
@@ -71,7 +73,7 @@
 
             <line
               class="y-tool"
-              stroke="black"
+              stroke="orange"
               stroke-dasharray="3px"
               opacity=".5"
               :x2="svgWidth * 2"
@@ -108,6 +110,7 @@ import { timeMonth } from "d3-time";
 import ChartContainer from "../chart-components/ChartContainer"
 import VueLine from "../chart-components/VueLine"
 import VueSpecialRect from "../chart-components/VueSpecialRect"
+import Grid from "../chart-components/Grid"
 
 import * as tweenObj from "@tweenjs/tween.js";
 const TWEEN = tweenObj.default;
@@ -137,6 +140,7 @@ export default {
     },
     xSpecial: Array,
     ySpecial: Array,
+    colors: Array,
     xTicks: {
       type: Object,
       default: () => ({
@@ -215,25 +219,9 @@ export default {
         .attr("stroke", "#999")
         .attr("stroke-opacity", "0.1");
     },
-    renderGrid() {
-      const yGrid = axisLeft(this.yScale)
-        .ticks(5)
-        .tickSize(-this.svgWidth)
-        .tickFormat("");
-      select(".gf-y-grid")
-        .call(yGrid)
-        .selectAll("line")
-        .attr("stroke", "#000")
-        .attr("stroke-opacity", "0.1")
-        .attr("stroke-width", "1px");
-      // Hide border paths
-      select(".gf-y-grid path").attr("stroke-opacity", "0");
-      select(".gf-x-grid path").attr("stroke-opacity", "0");
-    },
     AnimateLoad() {
       this.renderAxes();
-      this.renderGrid();
-      //this.renderLine(this.data);
+
       this.tween(0, 1);
     },
     mousemove({ offsetX }) {
@@ -274,6 +262,9 @@ export default {
       });
     },
     color() {
+      if (this.colors) {
+        return scaleOrdinal(this.colors).domain([0,0])
+      }
       return scaleOrdinal(schemeSet1).domain([0,1]);
     },
     tween(start, end) {
@@ -346,6 +337,7 @@ export default {
     ChartContainer,
     VueLine,
     VueSpecialRect,
+    Grid,
   }
 };
 </script>

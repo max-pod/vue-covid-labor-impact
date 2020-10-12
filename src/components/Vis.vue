@@ -17,6 +17,7 @@ import PandemicNumbers from "./dataCharts/PandemicNumbers"
 import SpendingByIndustry from "./dataCharts/SpendingByIndustry"
 
 import HoursImpact from "./dataCharts/HoursImpact"
+import TestLine from "./dataCharts/TestLine"
 
 export default {
     name: 'vis',
@@ -36,6 +37,7 @@ export default {
         SpendingByIndustry,
 
         HoursImpact,
+        TestLine,
     }
 }
 </script>

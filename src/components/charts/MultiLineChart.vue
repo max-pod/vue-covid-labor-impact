@@ -29,11 +29,13 @@
           <g class="x-axis" :transform="`translate(0, ${svgHeight})`" />
           <g class="y-axis" />
 
-          <!-- Grids -->
-          <g>
-            <g class="gf-x-grid grid" :transform="`translate(0, ${svgHeight})`" />
-            <g class="gf-y-grid grid" />
-          </g>
+          <Grid
+            v-if="redrawToggle === true"
+            :svgHeight="svgHeight"
+            :svgWidth="svgWidth"
+            :yScale="yScale"
+            :ySpecial="ySpecial"
+          />
 
           <VueLine
             @focused="focused = $event"
@@ -97,6 +99,7 @@ import ChartContainer from "../chart-components/ChartContainer"
 import VueToolTip from "../chart-components/VueToolTip"
 import VueLegend from "../chart-components/VueLegend"
 import VueLine from "../chart-components/VueLine"
+import Grid from "../chart-components/Grid"
 
 import * as tweenObj from "@tweenjs/tween.js";
 const TWEEN = tweenObj.default;
@@ -210,24 +213,8 @@ export default {
         .attr("stroke", "#999")
         .attr("stroke-opacity", "0.1");
     },
-    renderGrid() {
-      const yGrid = axisLeft(this.yScale)
-        .ticks(5)
-        .tickSize(-this.svgWidth)
-        .tickFormat("");
-      select(".gf-y-grid")
-        .call(yGrid)
-        .selectAll("line")
-        .attr("stroke", "#000")
-        .attr("stroke-opacity", "0.1")
-        .attr("stroke-width", "1px");
-      // Hide border paths
-      select(".gf-y-grid path").attr("stroke-opacity", "0");
-      select(".gf-x-grid path").attr("stroke-opacity", "0");
-    },
     AnimateLoad() {
       this.renderAxes();
-      this.renderGrid();
 
       this.tween(0, 1);
     },
@@ -336,6 +323,9 @@ export default {
       return this.svgWidth / 1.61803398875; // golden ratio
     },
     color() {
+      if (this.colors) {
+        return scaleOrdinal(this.colors).domain([0,this.sumstat.length-1]);
+      }
       return scaleOrdinal(schemeSet1).domain([0,this.sumstat.length-1]);
     },
   },
@@ -353,6 +343,7 @@ export default {
     VueLegend,
     ChartContainer,
     VueToolTip,
+    Grid,
   },
 };
 </script>
