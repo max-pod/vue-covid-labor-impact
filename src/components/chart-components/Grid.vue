@@ -52,7 +52,7 @@ export default {
           return this.ySpecial.includes(d);
         }).select('line')
           .attr("stroke-width", "2px")
-          .attr("stroke-opacity", "1")
+          .attr("stroke-opacity", ".7")
           .attr("stroke", '#FF0000')
       }
     },

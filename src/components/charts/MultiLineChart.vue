@@ -129,6 +129,7 @@ export default {
     },
     xSpecial: Array,
     ySpecial: Array,
+    colors: Array,
     xTicks: {
       type: Object,
       default: () => ({
