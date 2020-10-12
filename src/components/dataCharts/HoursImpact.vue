@@ -53,7 +53,7 @@ export default {
   name: "UniqueImpact",
   data: () => ({
     source: "See FRED (Federal Reserve St. Louis, 2020)",
-    chartNote: "% Change Total Hours Worked  Compared to Prior Peak",
+    chartNote: "% Change Total Non-Farm Hours Worked Compared to Prior Peak",
     xAxisNote: "Days Until Recovered",
     ChartTitle: "Losses of Hours Worked During Post-War Recessions",
     recessionsObj: recessionsObj,

@@ -31,6 +31,6 @@ export default {
             //console.log("RECT WIDTH", this.xScale(trough))
             return this.xScale(trough) - this.rectX;
         }
-    },
+    }
 }
 </script>

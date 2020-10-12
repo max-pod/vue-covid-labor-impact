@@ -24,7 +24,7 @@ import { timeFormat } from "d3-time-format";
 import { timeMonth } from "d3-time";
 
 import recessionsObj from "../functions/recessionDates";
-let recessions = recessionsObj.slice(0,recessionsObj.length-2);
+let recessions = recessionsObj.slice(recessionsObj.length-2);
 
 const apiKey = "f03c8ce7f9abbc474ccb57117ac26c86"; //GOOD THING I AM NOT PUBLICALLY HOSTING THIS ON GITHUB, OTHERWISE THIS WOULD BE PRETTY DUMB
 const set1 = "FGEXPND";
