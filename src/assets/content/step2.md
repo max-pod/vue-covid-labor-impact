@@ -1,4 +1,4 @@
-## Despite Powerful Monetary Policy
+## Powerful Monetary Policy Response
 
 Monetary Policy has four main tools: The Fed Funds Rate, Interest on Reserves,
 Open Market Operations, and the 13(3) Lending Facilities.

@@ -107,7 +107,7 @@ export default {
     info: Object,
   },
   mounted() {
-    this.svgWidth = document.getElementById("container").offsetWidth * 0.75;
+    this.svgWidth = document.getElementById("container").offsetWidth * 0.90;
     this.AddResizeListener();
     if (this.data.length >= 0) {
       this.AnimateLoad();
@@ -199,7 +199,7 @@ export default {
         setTimeout(() => {
           this.$data.redrawToggle = true;
           this.$data.svgWidth =
-            document.getElementById("container").offsetWidth * 0.75;
+            document.getElementById("container").offsetWidth * 0.90;
           this.AnimateLoad();
         }, 300);
       });
@@ -275,7 +275,7 @@ export default {
       return (i) => { return interpolateTurbo((i+1)/(this.sumstat.length+1))};
     },
     svgHeight() {
-      return this.svgWidth * .6; // golden ratio
+      return this.svgWidth * .5; // golden ratio
     },
   },
   watch: {

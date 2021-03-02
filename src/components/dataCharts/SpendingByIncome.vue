@@ -1,17 +1,18 @@
 <template>
   <div>
     <Chart
-      title="Spending Across Income Categories"
+      title="Seasonally Adjusted Spending Changes By Income Quartile"
       xKey="date"
       yKey="value"
       source="Sourced from Affinity Solutions. See TrackTheRecovery.org"
-      chartNote="% Change"
-      xAxisNote="Weekly Data"
+      chartNote=""
+      xAxisNote=""
       :data="ChartData"
       :info="ChartInfo"
       :xTicks="xTicks"
       :yFormat="yFormat"
       :legendMax="1"
+      :colors="['#FF0000','#5B9BD5','#009193']"
     />
   </div>
 </template>

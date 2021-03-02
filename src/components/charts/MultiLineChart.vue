@@ -142,7 +142,7 @@ export default {
     info: Object,
   },
   mounted() {
-    this.svgWidth = document.getElementById("container").offsetWidth * 0.75;
+    this.svgWidth = document.getElementById("container").offsetWidth * 0.90;
     this.AddResizeListener();
     if (this.data.length >= 0) {
       this.AnimateLoad();
@@ -257,7 +257,7 @@ export default {
         setTimeout(() => {
           this.$data.redrawToggle = true;
           this.$data.svgWidth =
-            document.getElementById("container").offsetWidth * 0.75;
+            document.getElementById("container").offsetWidth * 0.90;
           this.AnimateLoad();
         }, 500);
       });
@@ -321,7 +321,8 @@ export default {
       return bisector((d) => d[this.xKey]).left;
     },
     svgHeight() {
-      return this.svgWidth / 1.61803398875; // golden ratio
+      return this.svgWidth * .6;
+      //return this.svgWidth * .8; // golden ratio
     },
     color() {
       if (this.colors) {

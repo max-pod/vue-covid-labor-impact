@@ -58,6 +58,11 @@ h1 {
   font-weight: 800;
   font-size: 35px;
   text-align: center;
+  color: black;
+}
+
+center {
+  font-size: 20px;
 }
 
 .svg-container {

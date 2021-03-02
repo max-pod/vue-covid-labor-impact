@@ -1,7 +1,7 @@
 <template>
   <div>
     <Chart
-      title="Unemployment By Education"
+      title="Unemployment Rate by Race"
       xKey="date"
       yKey="value"
       source="Sourced from FRED"
@@ -13,7 +13,7 @@
       :xSpecial="recessionsObj"
       :ySpecial="[]"
       :yFormat="yFormat"
-      :colors="['#009193','#00BE91','#5B9BD5','#5C5ED6']"
+      :colors="['#FF0000','#009193']"
     />
   </div>
 </template>
@@ -33,24 +33,29 @@ let recessions = recessionsObj.slice(recessionsObj.length-2);
 
 const apiKey = "f03c8ce7f9abbc474ccb57117ac26c86"; //GOOD THING I AM NOT PUBLICALLY HOSTING THIS ON GITHUB, OTHERWISE THIS WOULD BE PRETTY DUMB
 
-/*const sets = [
+const sets = [
   {id : 'LNS14000006', key: 'Black Unemployment'},
-  {id : 'LNS14000009', key: 'Latino Unemployment'},
-  {id : 'LNU04032183', key: 'Asian Unemployment'},
+  //{id : 'LNS14000009', key: 'Latino Unemployment'},
+  //{id : 'LNU04032183', key: 'Asian Unemployment'},
   {id : 'LNS14000003', key: 'White Unemployment'},
-]*/
+]
 
 /*const sets = [
   {id : 'LNS14000036', key: '20-24 Unemployment'},
   {id : 'LNS14000060', key: '25-54 Unemployment'},
 ]*/
 
-const sets = [
+/*const sets = [
   {id : 'LNS14027659', key: 'No Highschool Unemployment'},
-  {id : 'LNS14027660', key: 'High School Unemployment'},
+  //{id : 'LNS14027660', key: 'High School Unemployment'},
   {id : 'LNS14027662', key: 'Bachelors Degree Unemployment'},
-  {id : 'CGMD25O', key: 'Masters Degree Unemployment'},
-]
+  //{id : 'CGMD25O', key: 'Masters Degree Unemployment'},
+]*/
+
+/*const sets = [
+  {id : 'LNU04000032', key: 'Black Women'},
+  {id : 'LNS14000002', key: 'All Women'},
+]*/
 
 const fUnits = "";
 const start = "2018-03-01"; //YYYY-MM-DD

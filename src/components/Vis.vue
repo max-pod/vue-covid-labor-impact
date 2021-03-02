@@ -19,6 +19,7 @@ import SpendingByIndustry from "./dataCharts/SpendingByIndustry"
 import HoursImpact from "./dataCharts/HoursImpact"
 import TestLine from "./dataCharts/TestLine"
 import TestMulti from "./dataCharts/TestMulti"
+import TestMultiFormula from "./dataCharts/TestMultiFormula"
 
 export default {
     name: 'vis',
@@ -40,6 +41,7 @@ export default {
         HoursImpact,
         TestLine,
         TestMulti,
+        TestMultiFormula,
     }
 }
 </script>

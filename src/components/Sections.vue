@@ -52,9 +52,10 @@ export default {
       stepSource: "EMB",
       step1: step1,
       steps: [
-        {content: '# TEST CASE', source: 'TestMulti', key: "TestMulti"},
-        {content: '# TEST CASE', source: 'TestLine', key: "TestLine"},
-        {content: '# TEST CASE', source: 'HoursImpact', key: "HoursImpact"},
+        // {content: '# TEST MultiFormula', source: 'TestMultiFormula', key: "TestMultiFormula"},
+        // {content: '# TEST Multi', source: 'TestMulti', key: "TestMulti"},
+        // {content: '# TEST Line', source: 'TestLine', key: "TestLine"},
+        // {content: '# TEST Hours', source: 'HoursImpact', key: "HoursImpact"},
         {content: step2, source: 'MonetaryPolicy', key: "MonetaryPolicy"},
         {content: step3, source: 'FiscalPolicy', key: "FiscalPolicy"},
         {content: step4, source: 'EmploymentByWage', key: "EmploymentByWage"},

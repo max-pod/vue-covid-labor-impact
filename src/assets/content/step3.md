@@ -1,4 +1,4 @@
-## Despite Powerful Fiscal Policy
+## Powerful Fiscal Policy Response
 
 Fiscal Policy, or actions taken by Congress, has three main tools: taxation,
 subsidies, and discretionary fiscal policy. For the most part, this section will

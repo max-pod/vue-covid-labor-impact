@@ -3,14 +3,14 @@
     <Chart
       xKey="date"
       yKey="value"
-      title="Real Personal Consumption Expenditures"
+      title="Unemployment Rate"
       :info="ChartInfo"
-      source="See FRED (Federal Reserve St. Louis, 2020)"
-      chartNote="Percent Change From Last Year"
+      source=""
+      chartNote=""
       xAxisNote="Monthly Data"
       :data="ChartData"
       :xTicks="xTicks"
-      :xSpecial="recessionsObj"
+      :xSpecial="[]"
       :ySpecial="[]"
       :colors="['#009193']"
     />
@@ -29,9 +29,14 @@ import recessionsObj from "../functions/recessionDates";
 let recessions = recessionsObj.slice(recessionsObj.length-2);
 
 const apiKey = "f03c8ce7f9abbc474ccb57117ac26c86"; //GOOD THING I AM NOT PUBLICALLY HOSTING THIS ON GITHUB, OTHERWISE THIS WOULD BE PRETTY DUMB
-const set1 = "PCEC96";
+//const set1 = "PCEC96";
+//const set1 = "LNS11300002" // Women Labor Force Participation
 
-const fUnits = "pc1";
+//const set1 = "GDPC1";
+//const set1 = "PCEPI"
+const set1 = "UNRATE"
+
+const fUnits = "lin";
 const start = "2019-01-01"; //YYYY-MM-DD
 const parseTime = timeParse("%Y-%m-%d");
 const parseLastUpdated = timeParse("%Y-%m-%d");
@@ -86,9 +91,3 @@ export default {
   },
 };
 </script>
-
-<style>
-body {
-  background-color: white !important;
-}
-</style>

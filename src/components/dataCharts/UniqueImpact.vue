@@ -24,7 +24,7 @@ import { format } from "d3-format";
 import recessionsObj from "../functions/recessionDates";
 
 //PCEPI
-const apiKey = "f03c8ce7f9abbc474ccb57117ac26c86"; //GOOD THING I AM NOT PUBLICALLY HOSTING THIS ON GITHUB, OTHERWISE THIS WOULD BE PRETTY DUMB
+const apiKey = "84e147c6a80307d0560aca7eaa8a146a"; //GOOD THING I AM NOT PUBLICALLY HOSTING THIS ON GITHUB, OTHERWISE THIS WOULD BE PRETTY DUMB
 const set1 = "PAYEMS";
 const fUnits = "lin";
 const start = "1940-01-01"; //YYYY-MM-DD
@@ -42,11 +42,11 @@ function dateDiffInDays(a, b) {
 }
 
 function dataSeries(set) {
-  return `https://cors-anywhere.herokuapp.com/https://api.stlouisfed.org/fred/series/observations?series_id=${set}&api_key=${apiKey}&observation_start=${start}&units=${fUnits}&file_type=json`;
+  return `https://thingproxy.freeboard.io/fetch/https://api.stlouisfed.org/fred/series/observations?series_id=${set}&api_key=${apiKey}&observation_start=${start}&units=${fUnits}&file_type=json`;
 }
 
 function dataInfo(set) {
-  return `https://cors-anywhere.herokuapp.com/https://api.stlouisfed.org/fred/series?series_id=${set}&api_key=${apiKey}&observation_start=${start}&units=${fUnits}&file_type=json`;
+  return `https://thingproxy.freeboard.io/fetch/https://api.stlouisfed.org/fred/series?series_id=${set}&api_key=${apiKey}&observation_start=${start}&units=${fUnits}&file_type=json`;
 }
 
 export default {
