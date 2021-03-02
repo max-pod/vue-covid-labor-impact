@@ -36,11 +36,11 @@ const parseLastUpdated = timeParse("%Y-%m-%d");
 
 //const end = "2020-05-01"
 function dataSeries(set) {
-  return `https://thingproxy.freeboard.io/fetch/https://api.stlouisfed.org/fred/series/observations?series_id=${set}&api_key=${apiKey}&observation_start=${start}&units=${fUnits}&file_type=json`;
+  return `https://maxpod-corsfixed.herokuapp.com/https://api.stlouisfed.org/fred/series/observations?series_id=${set}&api_key=${apiKey}&observation_start=${start}&units=${fUnits}&file_type=json`;
 }
 
 function dataInfo(set) {
-  return `https://thingproxy.freeboard.io/fetch/https://api.stlouisfed.org/fred/series?series_id=${set}&api_key=${apiKey}&observation_start=${start}&units=${fUnits}&file_type=json`;
+  return `https://maxpod-corsfixed.herokuapp.com/https://api.stlouisfed.org/fred/series?series_id=${set}&api_key=${apiKey}&observation_start=${start}&units=${fUnits}&file_type=json`;
 }
 
 export default {
